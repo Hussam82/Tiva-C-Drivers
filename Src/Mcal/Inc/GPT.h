@@ -60,7 +60,8 @@ void Gpt_Notification_Timer2_Wide(void);
 void Gpt_Notification_Timer3_Wide(void);
 void Gpt_Notification_Timer4_Wide(void);
 void Gpt_Notification_Timer5_Wide(void);
-
+Gpt_ValueType Gpt_GetTimeElapsed(Gpt_ChannelType Channel);
+Gpt_ValueType Gpt_GetTimeRemaining(Gpt_ChannelType Channel);
 
  
 #endif  /* GPT_H */

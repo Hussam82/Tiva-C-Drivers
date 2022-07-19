@@ -16,12 +16,12 @@
  *********************************************************************************************************************/
 #include "Std_Types.h"
 #include "GPT_Cfg.h"
-
+#include "GPT_Regs.h"
 /**********************************************************************************************************************
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
-#define NUM_TIMERS  12
-   
+#define GPT_NUMBER_OF_TIMERS    12
+
           
 
 /**********************************************************************************************************************
@@ -33,8 +33,8 @@
  *  GLOBAL DATA TYPES AND STRUCTURES
  *********************************************************************************************************************/
 typedef uint32 Gpt_ValueType;
-
 typedef void (*Gpt_CallBackType)(void);
+
 
 typedef enum{
     GPT_TIMER_0,
@@ -76,24 +76,16 @@ typedef enum{
     GPT_MODE_NORMAL
 }Gpt_ModeType;
 
-typedef enum{
-    GPT_PREDEF_TIMER_1US_16BIT,
-    GPT_PREDEF_TIMER_1US_24BIT,
-    GPT_PREDEF_TIMER_1US_32BIT,
-    GPT_PREDEF_TIMER_100US_32BIT
-}Gpt_PreDefTimerType;
+
 
 typedef struct{
     Gpt_ChannelType         GptChannelId;
     Gpt_ValueType           GptChannelTickValueMax;
     Gpt_PrescalerType       GptChannelTickFrequency;
     Gpt_ModeType            GptChannelMode;   
-    Gpt_CallBackType            GptNotification;
-}Gpt_OneConfigType;
-
-typedef struct{
-    Gpt_OneConfigType ConfigArray[NUM_TIMERS];
+    Gpt_CallBackType        GptNotification;
 }Gpt_ConfigType;
+
 
 
  

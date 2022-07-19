@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 #include "Std_Types.h"
 #include "GPT_Types.h"
+#include "GPT.h"
 /**********************************************************************************************************************
 *  LOCAL MACROS CONSTANT\FUNCTION
 *********************************************************************************************************************/
@@ -22,24 +23,16 @@
  *  LOCAL DATA 
  *********************************************************************************************************************/
 
+
 /**********************************************************************************************************************
  *  GLOBAL DATA
  *********************************************************************************************************************/
-const Gpt_ConfigType GptConfigArray = 
+const Gpt_ConfigType GptConfigArray[GPT_CONFIG_NUM_TIMERS] = 
 {
-    GPT_TIMER_0,      65536, GPT_NO_PS, GPT_MODE_NORMAL, NULL_PTR,
-    GPT_TIMER_1,      65536, GPT_NO_PS, GPT_MODE_NORMAL, NULL_PTR,
-    GPT_TIMER_2,      65536, GPT_NO_PS, GPT_MODE_NORMAL, NULL_PTR,
-    GPT_TIMER_3,      65536, GPT_NO_PS, GPT_MODE_NORMAL, NULL_PTR,
-    GPT_TIMER_4,      65536, GPT_NO_PS, GPT_MODE_NORMAL, NULL_PTR,
-    GPT_TIMER_5,      65536, GPT_NO_PS, GPT_MODE_NORMAL, NULL_PTR,
-    GPT_WIDE_TIMER_0, 65536, GPT_NO_PS, GPT_MODE_NORMAL, NULL_PTR,
-    GPT_WIDE_TIMER_1, 65536, GPT_NO_PS, GPT_MODE_NORMAL, NULL_PTR,
-    GPT_WIDE_TIMER_2, 65536, GPT_NO_PS, GPT_MODE_NORMAL, NULL_PTR,
-    GPT_WIDE_TIMER_3, 65536, GPT_NO_PS, GPT_MODE_NORMAL, NULL_PTR,
-    GPT_WIDE_TIMER_4, 65536, GPT_NO_PS, GPT_MODE_NORMAL, NULL_PTR,
-    GPT_WIDE_TIMER_5, 65536, GPT_NO_PS, GPT_MODE_NORMAL, NULL_PTR
+    {GPT_TIMER_0,      65536, GPT_NO_PS, GPT_MODE_NORMAL, Gpt_Notification_Timer0},
+    {GPT_TIMER_1,      65536, GPT_NO_PS, GPT_MODE_NORMAL, Gpt_Notification_Timer1}
 };
+
 /**********************************************************************************************************************
  *  LOCAL FUNCTION PROTOTYPES
  *********************************************************************************************************************/

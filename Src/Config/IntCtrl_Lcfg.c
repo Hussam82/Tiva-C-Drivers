@@ -28,12 +28,12 @@
  *  GLOBAL DATA
  *********************************************************************************************************************/
 /* You have to change the Number of interrupts required in cfg.h for this to work */
-const IntCtrl_ConfigStruct InterruptsConfigArray[NUM_INTERRUPTS] =
+const IntCtrl_ConfigStruct InterruptsConfigArray[INTCTRL_CONFIG_NUM_INTERRUPTS] =
 {
-	{GPIO_PORTA,						                			ENABLED, GROUP_0_SUB_0},
+	{SYSTEM_CONTROL,						                			ENABLED, GROUP_0_SUB_0},
 	{GPIO_PORTB,						                			DISABLED, GROUP_0_SUB_0},
 	{GPIO_PORTC,						   							ENABLED, GROUP_0_SUB_0},
-	{GPIO_PORTD,						   							ENABLED, GROUP_0_SUB_0}
+	{GPIO_PORTA,						   							ENABLED, GROUP_0_SUB_0}
 };
 
 

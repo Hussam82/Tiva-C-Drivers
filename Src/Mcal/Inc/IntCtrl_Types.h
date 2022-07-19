@@ -109,7 +109,7 @@ typedef enum
 	TIMER_2B_16_32,
 	Analog_Comparator_0,
 	Analog_Comparator_1,
-	System_Control = 28,
+	SYSTEM_CONTROL = 28,
     FLASH_MEMORY_CONTROL_AND_EEPROM_CONTROL,
     GPIO_PORTF,
     UART2 = 33,
@@ -176,7 +176,7 @@ typedef struct{
 }IntCtrl_ConfigStruct;
 
 
-extern const IntCtrl_ConfigStruct InterruptsConfigArray[NUM_INTERRUPTS];
+extern const IntCtrl_ConfigStruct InterruptsConfigArray[INTCTRL_CONFIG_NUM_INTERRUPTS];
 
  
 #endif  /* INTCTRL_TYPES_H */
