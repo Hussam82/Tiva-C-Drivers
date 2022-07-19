@@ -23,7 +23,7 @@
 #define		INTCTRL_GROUP_2_SUB_1		0x05FA0500		/* 2 bits for Group and 1 bits for sub group */
 #define		INTCTRL_GROUP_1_SUB_2		0x05FA0600		/* 1 bits for Group and 2 bits for sub group */
 #define		INTCTRL_GROUP_0_SUB_3		0x05FA0700		/* 0 bits for Group and 3 bits for sub group */
-#define     NUM_INTERRUPTS              78              /*          There is 78 Interrupts           */
+
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION MACROS
  *********************************************************************************************************************/
@@ -175,13 +175,8 @@ typedef struct{
     IntCtrl_Group_Sub_Dist InterruptPeripheralPriority;
 }IntCtrl_ConfigStruct;
 
-typedef struct{
-    IntCtrl_ConfigStruct InterruptStruct[NUM_INTERRUPTS];
-}IntCtrl_InterruptsConfigStruct;
 
-
-
-extern const IntCtrl_InterruptsConfigStruct InterruptsConfigArray;
+extern const IntCtrl_ConfigStruct InterruptsConfigArray[NUM_INTERRUPTS];
 
  
 #endif  /* INTCTRL_TYPES_H */

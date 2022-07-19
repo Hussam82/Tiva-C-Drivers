@@ -59,76 +59,75 @@ void IntCrtl_Init(void)
     /* Loop to cover all the interrupts in the config struct array */
     for(intNumber = 0; intNumber < NUM_INTERRUPTS; intNumber++)
     {
-        IntCtrl_ConfigStruct currentInt = InterruptsConfigArray.InterruptStruct[intNumber];
 		if(intNumber == 25 || intNumber == 26 || intNumber == 27)
 			continue;
-        intPriNumber = currentInt.InterrupPeripheralGates / 4;       /* Get the correct PRI register number */ 
-        intPosition = currentInt.InterrupPeripheralGates % 4;        /* Get the position of the interrupt inside PRI register */
+        intPriNumber = InterruptsConfigArray[intNumber].InterrupPeripheralGates / 4;       /* Get the correct PRI register number */ 
+        intPosition = InterruptsConfigArray[intNumber].InterrupPeripheralGates % 4;        /* Get the position of the interrupt inside PRI register */
         /*TODO : Assign Group\Subgroup priority in NVIC_PRIx Nvic and SCB_SYSPRIx Registers*/ 
         /* Setting the Priority of the interrupt */
         switch (intPosition)
         {
             case 0:
-                INTCTRL_PERIPH->PRIx[intPriNumber] |= (currentInt.InterruptPeripheralPriority << 5); /* Insert the the priority in the corresponding 3 bits in PRI register */
+                INTCTRL_PERIPH->PRIx[intPriNumber] |= (InterruptsConfigArray[intNumber].InterruptPeripheralPriority << 5); /* Insert the the priority in the corresponding 3 bits in PRI register */
                 break;
             case 1:
-                INTCTRL_PERIPH->PRIx[intPriNumber] |= (currentInt.InterruptPeripheralPriority << 13); /* Insert the the priority in the corresponding 3 bits in PRI register */
+                INTCTRL_PERIPH->PRIx[intPriNumber] |= (InterruptsConfigArray[intNumber].InterruptPeripheralPriority << 13); /* Insert the the priority in the corresponding 3 bits in PRI register */
                 break;
             case 2:
-                INTCTRL_PERIPH->PRIx[intPriNumber] |= (currentInt.InterruptPeripheralPriority << 21); /* Insert the the priority in the corresponding 3 bits in PRI register */
+                INTCTRL_PERIPH->PRIx[intPriNumber] |= (InterruptsConfigArray[intNumber].InterruptPeripheralPriority << 21); /* Insert the the priority in the corresponding 3 bits in PRI register */
                 break;
             case 3:
-                INTCTRL_PERIPH->PRIx[intPriNumber] |= (currentInt.InterruptPeripheralPriority << 29); /* Insert the the priority in the corresponding 3 bits in PRI register */
+                INTCTRL_PERIPH->PRIx[intPriNumber] |= (InterruptsConfigArray[intNumber].InterruptPeripheralPriority << 29); /* Insert the the priority in the corresponding 3 bits in PRI register */
                 break;
             default:
                 break;
         }
         /*TODO : Enable\Disable based on user configurations in NVIC_ENx and SCB_Sys Registers */
         /* Enabling the Interrupt */
-        if(currentInt.InterruptPeripheralState == ENABLED)
+        if(InterruptsConfigArray[intNumber].InterruptPeripheralState == ENABLED)
         {
-            if(currentInt.InterrupPeripheralGates >= 0 && currentInt.InterrupPeripheralGates <= 31)
+            if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 0 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 31)
             {
-                SET_BIT(INTCTRL_PERIPH->ENx[0], currentInt.InterrupPeripheralGates);
+                SET_BIT(INTCTRL_PERIPH->ENx[0], InterruptsConfigArray[intNumber].InterrupPeripheralGates);
             }
-            else if(currentInt.InterrupPeripheralGates >= 32 && currentInt.InterrupPeripheralGates <= 63)
+            else if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 32 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 63)
             {
-                SET_BIT(INTCTRL_PERIPH->ENx[1], currentInt.InterrupPeripheralGates - 32);
+                SET_BIT(INTCTRL_PERIPH->ENx[1], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 32);
             }
-            else if(currentInt.InterrupPeripheralGates >= 64 && currentInt.InterrupPeripheralGates <= 95)
+            else if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 64 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 95)
             {
-                SET_BIT(INTCTRL_PERIPH->ENx[2], currentInt.InterrupPeripheralGates - 64);
+                SET_BIT(INTCTRL_PERIPH->ENx[2], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 64);
             }
-            else if(currentInt.InterrupPeripheralGates >= 96 && currentInt.InterrupPeripheralGates < 127)
+            else if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 96 && InterruptsConfigArray[intNumber].InterrupPeripheralGates < 127)
             {
-                SET_BIT(INTCTRL_PERIPH->ENx[3], currentInt.InterrupPeripheralGates - 96);
+                SET_BIT(INTCTRL_PERIPH->ENx[3], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 96);
             }
             else
             {
-                SET_BIT(INTCTRL_PERIPH->ENx[4], currentInt.InterrupPeripheralGates - 128);
+                SET_BIT(INTCTRL_PERIPH->ENx[4], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 128);
             }
 				}
-        else if(currentInt.InterruptPeripheralState == DISABLED)
+        else if(InterruptsConfigArray[intNumber].InterruptPeripheralState == DISABLED)
         {
-            if(currentInt.InterrupPeripheralGates >= 0 && currentInt.InterrupPeripheralGates <= 31)
+            if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 0 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 31)
             {
-                SET_BIT(INTCTRL_PERIPH->DISx[0], currentInt.InterrupPeripheralGates);
+                SET_BIT(INTCTRL_PERIPH->DISx[0], InterruptsConfigArray[intNumber].InterrupPeripheralGates);
             }
-            else if(currentInt.InterrupPeripheralGates >= 32 && currentInt.InterrupPeripheralGates <= 63)
+            else if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 32 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 63)
             {
-                SET_BIT(INTCTRL_PERIPH->DISx[1], currentInt.InterrupPeripheralGates - 32);
+                SET_BIT(INTCTRL_PERIPH->DISx[1], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 32);
             }
-            else if(currentInt.InterrupPeripheralGates >= 64 && currentInt.InterrupPeripheralGates <= 95)
+            else if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 64 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 95)
             {
-                SET_BIT(INTCTRL_PERIPH->DISx[2], currentInt.InterrupPeripheralGates - 64);
+                SET_BIT(INTCTRL_PERIPH->DISx[2], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 64);
             }
-            else if(currentInt.InterrupPeripheralGates >= 96 && currentInt.InterrupPeripheralGates < 127)
+            else if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 96 && InterruptsConfigArray[intNumber].InterrupPeripheralGates < 127)
             {
-                SET_BIT(INTCTRL_PERIPH->DISx[3], currentInt.InterrupPeripheralGates - 96);
+                SET_BIT(INTCTRL_PERIPH->DISx[3], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 96);
             }
             else
             {
-                SET_BIT(INTCTRL_PERIPH->DISx[4], currentInt.InterrupPeripheralGates - 128);
+                SET_BIT(INTCTRL_PERIPH->DISx[4], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 128);
             }
         }
     }
