@@ -26,7 +26,12 @@
 /**********************************************************************************************************************
  *  GLOBAL DATA
  *********************************************************************************************************************/
-static void (*Gpt_CallBackPtr[GPT_NUMBER_OF_TIMERS])(void) = {NULL_PTR};
+static void (*Gpt_CallBackPtr[GPT_NUMBER_OF_TIMERS])(void) = {NULL_PTR, NULL_PTR, NULL_PTR,
+                                                              NULL_PTR, NULL_PTR, NULL_PTR,
+                                                              NULL_PTR, NULL_PTR, NULL_PTR,
+                                                              NULL_PTR, NULL_PTR, NULL_PTR};
+                                                                
+                                                                
 
 
 /**********************************************************************************************************************
@@ -122,6 +127,8 @@ void TIMER0A_Handler(void)
     if(Gpt_CallBackPtr[GPT_TIMER_0]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_TIMER_0])();
+        /* Clear the TAMIM flag */
+        SET_BIT(GPTMICR(GPT_TIMER_0), GPTMICR_TAMIM_BIT);
     }
 }
 
@@ -130,6 +137,8 @@ void TIMER1A_Handler(void)
     if(Gpt_CallBackPtr[GPT_TIMER_1]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_TIMER_1])();
+        /* Clear the TAMIM flag */
+        SET_BIT(GPTMICR(GPT_TIMER_1), GPTMICR_TAMIM_BIT);
     }
 }
 
@@ -138,6 +147,8 @@ void TIMER2A_Handler(void)
     if(Gpt_CallBackPtr[GPT_TIMER_2]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_TIMER_2])();
+        /* Clear the TAMIM flag */
+        SET_BIT(GPTMICR(GPT_TIMER_2), GPTMICR_TAMIM_BIT);
     }
 }
 
@@ -146,6 +157,8 @@ void TIMER3A_Handler(void)
     if(Gpt_CallBackPtr[GPT_TIMER_3]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_TIMER_3])();
+        /* Clear the TAMIM flag */
+        SET_BIT(GPTMICR(GPT_TIMER_3), GPTMICR_TAMIM_BIT);
     }
 }
 
@@ -154,6 +167,8 @@ void TIMER4A_Handler(void)
     if(Gpt_CallBackPtr[GPT_TIMER_4]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_TIMER_4])();
+        /* Clear the TAMIM flag */
+        SET_BIT(GPTMICR(GPT_TIMER_4), GPTMICR_TAMIM_BIT);
     }
 }
 
@@ -162,6 +177,8 @@ void TIMER5A_Handler(void)
     if(Gpt_CallBackPtr[GPT_TIMER_5]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_TIMER_5])();
+        /* Clear the TAMIM flag */
+        SET_BIT(GPTMICR(GPT_TIMER_5), GPTMICR_TAMIM_BIT);
     }
 }
 
@@ -170,6 +187,8 @@ void WTIMER0A_Handler(void)
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_0]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_WIDE_TIMER_0])();
+        /* Clear the TAMIM flag */
+        SET_BIT(GPTMICR(GPT_WIDE_TIMER_0), GPTMICR_TAMIM_BIT);
     }
 }
 
@@ -178,6 +197,8 @@ void WTIMER1A_Handler(void)
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_1]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_WIDE_TIMER_1])();
+        /* Clear the TAMIM flag */
+        SET_BIT(GPTMICR(GPT_WIDE_TIMER_1), GPTMICR_TAMIM_BIT);
     }
 }
 
@@ -186,6 +207,8 @@ void WTIMER2A_Handler(void)
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_2]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_WIDE_TIMER_2])();
+        /* Clear the TAMIM flag */
+        SET_BIT(GPTMICR(GPT_WIDE_TIMER_2), GPTMICR_TAMIM_BIT);
     }
 }
 
@@ -194,6 +217,8 @@ void WTIMER3A_Handler(void)
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_3]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_WIDE_TIMER_3])();
+        /* Clear the TAMIM flag */
+        SET_BIT(GPTMICR(GPT_WIDE_TIMER_3), GPTMICR_TAMIM_BIT);
     }
 }
 
@@ -202,6 +227,8 @@ void WTIMER4A_Handler(void)
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_4]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_WIDE_TIMER_4])();
+        /* Clear the TAMIM flag */
+        SET_BIT(GPTMICR(GPT_WIDE_TIMER_4), GPTMICR_TAMIM_BIT);
     }
 }
 
@@ -210,6 +237,8 @@ void WTIMER5A_Handler(void)
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_5]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_WIDE_TIMER_5])();
+        /* Clear the TAMIM flag */
+        SET_BIT(GPTMICR(GPT_WIDE_TIMER_5), GPTMICR_TAMIM_BIT);
     }
 }
 
