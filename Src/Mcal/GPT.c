@@ -58,7 +58,6 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
     uint8 counter;
     for(counter = 0; counter < GPT_CONFIG_NUM_TIMERS; counter++)
     {
-
         /* Set the callback function */
         Gpt_CallBackPtr[ConfigPtr[counter].GptChannelId] = ConfigPtr[counter].GptNotification;
 
@@ -77,18 +76,9 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
         /* Insert the required mode in the first 3 bits of GPTMAMR Register */
         GPTMTAMR(ConfigPtr[counter].GptChannelId) |= ConfigPtr[counter].GptChannelMode;
 
-        /* Enable the Timer Match Interrupt Mask */
-        SET_BIT(GPTMTAMR(ConfigPtr[counter].GptChannelId), GPTMTAMR_TAMIE_BIT);
-
-        /* Enable the Timer Time-Out Interrupt Mask */
-        SET_BIT(GPTMTAMR(ConfigPtr[counter].GptChannelId), GPTMIMR_TATOIM_BIT);
-
         /* Select Count up Mode */
         SET_BIT(GPTMTAMR(ConfigPtr[counter].GptChannelId), GPTMTAMR_TACDIR_BIT);
 
-        /* Enable the timer match interrupt */
-        SET_BIT(GPTMIMR(ConfigPtr[counter].GptChannelId), GPTMIMR_TAMIM_BIT);
-    
     }
 }
 
@@ -96,18 +86,24 @@ void Gpt_DisableNotification(Gpt_ChannelType Channel)
 {
     /* Disable the Timer interrupt */
     CLEAR_BIT(GPTMTAMR(Channel), GPTMTAMR_TAMIE_BIT);
+
+    /* Enable the timer match interrupt */
+    CLEAR_BIT(GPTMIMR(Channel), GPTMIMR_TAMIM_BIT);
 }
 
 void Gpt_EnableNotification(Gpt_ChannelType Channel)
 {
     /* Enable the Timer interrupt */
-    SET_BIT(GPTMTAMR(Channel), GPTMTAMR_TAMIE_BIT);    
+    SET_BIT(GPTMTAMR(Channel), GPTMTAMR_TAMIE_BIT);  
+
+    /* Enable the timer match interrupt */
+    SET_BIT(GPTMIMR(Channel), GPTMIMR_TAMIM_BIT);
 }
 
 void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value)
 {
-    /* Load the value in GPTMTAILR Register */
-    GPTMTAILR(Channel) = Value;
+    /* Load the value in GPTMTAMATCHR Register */
+    GPTMTAMATCHR(Channel) = Value;
 
     /* Start counting */
     SET_BIT(GPTMCTL(Channel), GPTMCTL_TAEN_BIT);
