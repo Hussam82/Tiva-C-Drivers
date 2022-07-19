@@ -42,7 +42,7 @@
 #define GPTMTAMR_TAMIE_BIT                 5
 #define GPTMTAMR_TACDIR_BIT                4
 /* Bit fields in GPTMICR Register */
-#define GPTMICR_TAMIM_BIT                  4
+#define GPTMICR_TAMCINT_BIT                  4
 /* Bit fields in GPTMIMR Register */
 #define GPTMIMR_TAMIM_BIT                  4
 #define GPTMIMR_TATOIM_BIT                 0
