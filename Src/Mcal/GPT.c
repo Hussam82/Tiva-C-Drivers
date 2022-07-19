@@ -78,12 +78,11 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
         /* Write the GPTM Configuration Register (GPTMCFG) with a value of 0x00000000 */
         GPTMCFG(ConfigPtr[counter].GptChannelId) = 0x0;
 
-        /* Insert the required mode in the first 3 bits of GPTMAMR Register */
+        /* Insert the required mode in the first 2 bits of GPTMAMR Register */
         GPTMTAMR(ConfigPtr[counter].GptChannelId) |= ConfigPtr[counter].GptChannelMode;
 
         /* Select Count up Mode */
         SET_BIT(GPTMTAMR(ConfigPtr[counter].GptChannelId), GPTMTAMR_TACDIR_BIT);
-
     }
 }
 
@@ -92,7 +91,7 @@ void Gpt_DisableNotification(Gpt_ChannelType Channel)
     /* Disable the Timer interrupt */
     CLEAR_BIT(GPTMTAMR(Channel), GPTMTAMR_TAMIE_BIT);
 
-    /* Enable the timer match interrupt */
+    /* Disable the Timer match interrupt */
     CLEAR_BIT(GPTMIMR(Channel), GPTMIMR_TAMIM_BIT);
 }
 

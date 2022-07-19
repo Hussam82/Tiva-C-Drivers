@@ -34,7 +34,8 @@
 #define WIDE_TIMER_3_BASE_ADDRESS       0x4004D000
 #define WIDE_TIMER_4_BASE_ADDRESS       0x4004E000
 #define WIDE_TIMER_5_BASE_ADDRESS       0x4004F000
-
+#define RCGCTIMER_ADDRESS               0x400FE604
+#define RCGCWTIMER_ADDRESS              0x400FE65C
 /* Bit fields in GPTMCTL Register */
 #define GPTMCTL_TAEN_BIT                   0
 /* Bit fields in GPTMTnMR Register */
@@ -79,7 +80,7 @@
  *  GLOBAL FUNCTION MACROS
  *********************************************************************************************************************/
 /* General-Purpose Timer Registers */
-#define GPT_OFFSET(x)		    (x<8? ((0x40030000) + ((x)*0x1000)):((0x4004C000) + ((x-8)*0x1000)))
+#define GPT_OFFSET(x)		    (x<8? ((TIMER_0_BASE_ADDRESS) + ((x)*0x1000)):((WIDE_TIMER_2_BASE_ADDRESS) + ((x-8)*0x1000)))
 #define GPTMCFG(x)              *((volatile uint32*)GPT_OFFSET(x))
 #define GPTMTAMR(x)             *((volatile uint32*)(GPT_OFFSET(x) + 0x004))
 #define GPTMTBMR(x)             *((volatile uint32*)(GPT_OFFSET(x) + 0x008))
@@ -108,8 +109,8 @@
 #define GPTMTBPV(x)             *((volatile uint32*)(GPT_OFFSET(x) + 0x068))
 #define GPTMPP(x)               *((volatile uint32*)(GPT_OFFSET(x) + 0xFC0))
 /* General-Purpose Timer Run Mode Clock Gating Control */
-#define RCGCTIMER               0x400FE604
-#define RCGCWTIMER              0x400FE65C
+#define RCGCTIMER               RCGCTIMER_ADDRESS
+#define RCGCWTIMER              RCGCWTIMER_ADDRESS
 #define RCGC_TIMER(x)           *(volatile uint32*)(x<6? RCGCTIMER:RCGCWTIMER)
 
 
