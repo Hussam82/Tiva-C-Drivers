@@ -29,7 +29,6 @@
  *********************************************************************************************************************/
 const Gpt_ConfigType GptConfigArray[GPT_CONFIG_NUM_TIMERS] = 
 {
-    {GPT_TIMER_0,      65536, GPT_NO_PS, GPT_MODE_NORMAL, Gpt_Notification_Timer0},
     {GPT_TIMER_1,      65536, GPT_NO_PS, GPT_MODE_NORMAL, Gpt_Notification_Timer1}
 };
 

@@ -87,7 +87,7 @@ typedef struct{
 }Gpt_ConfigType;
 
 
-
+extern const Gpt_ConfigType GptConfigArray[GPT_CONFIG_NUM_TIMERS];
  
 #endif  /* GPT_TYPES_H */
 

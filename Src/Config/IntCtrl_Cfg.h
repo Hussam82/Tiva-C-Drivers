@@ -19,7 +19,7 @@
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
 #define INTCTRL_GROUP_SUB_DIST  INTCTRL_GROUP_3_SUB_0
-#define INTCTRL_CONFIG_NUM_INTERRUPTS              4                       /*          There is 78 Interrupts           */
+#define INTCTRL_CONFIG_NUM_INTERRUPTS              1                       /*          There is 78 Interrupts           */
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION MACROS
  *********************************************************************************************************************/

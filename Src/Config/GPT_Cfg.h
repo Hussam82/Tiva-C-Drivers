@@ -19,7 +19,7 @@
 /**********************************************************************************************************************
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
-#define GPT_CONFIG_NUM_TIMERS  3
+#define GPT_CONFIG_NUM_TIMERS  1
 #define GPT_PREDEF_TIMER_1US_16BIT   STD_OFF
 #define GPT_PREDEF_TIMER_1US_24BIT   STD_OFF
 #define GPT_PREDEF_TIMER_1US_32BIT   STD_OFF
