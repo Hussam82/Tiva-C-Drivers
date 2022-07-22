@@ -176,7 +176,7 @@ typedef struct{
 }IntCtrl_ConfigStruct;
 
 
-extern const IntCtrl_ConfigStruct InterruptsConfigArray[INTCTRL_CONFIG_NUM_INTERRUPTS];
+extern const IntCtrl_ConfigStruct InterruptsConfigArray[INTCTRL_CONFIGURED_INTERRUPTS];
 
  
 #endif  /* INTCTRL_TYPES_H */

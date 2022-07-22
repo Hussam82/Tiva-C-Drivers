@@ -1,7 +1,7 @@
 /**********************************************************************************************************************
  *  FILE DESCRIPTION
  *  -----------------------------------------------------------------------------------------------------------------*/
-/**        \file  FileName.c
+/**        \file  Port_Lcfg.c
  *        \brief  
  *
  *      \details  
@@ -13,8 +13,8 @@
  *  INCLUDES
  *********************************************************************************************************************/
 #include "Std_Types.h"
-#include "GPT_Types.h"
-#include "GPT.h"
+#include "Port_Types.h"
+#include "Port.h"
 /**********************************************************************************************************************
 *  LOCAL MACROS CONSTANT\FUNCTION
 *********************************************************************************************************************/
@@ -23,15 +23,16 @@
  *  LOCAL DATA 
  *********************************************************************************************************************/
 
-
 /**********************************************************************************************************************
  *  GLOBAL DATA
  *********************************************************************************************************************/
-const Gpt_ConfigType GptConfigArray[GPT_CONFIGURED_TIMERS] = 
+const Port_ConfigType PortConfigArray[PORT_CONFIGURED_PINS] = 
 {
-    {GPT_TIMER_1,      65536, GPT_NO_PS, GPT_MODE_NORMAL, Gpt_Notification_Timer1}
+    {PORT_A0, PORT_PIN_OUTPUT, PORT_PIN_HIGH_LEVEL, PORT_DIO_MODE, PORT_INTERNAL_PULL_DOWN_MODE, PORT_8MA_OUTPUT_CURRENT},
+    {PORT_A1, PORT_PIN_OUTPUT, PORT_PIN_HIGH_LEVEL, PORT_DIO_MODE, PORT_INTERNAL_PULL_DOWN_MODE, PORT_8MA_OUTPUT_CURRENT},
+    {PORT_B2, PORT_PIN_OUTPUT, PORT_PIN_HIGH_LEVEL, PORT_DIO_MODE, PORT_INTERNAL_PULL_DOWN_MODE, PORT_8MA_OUTPUT_CURRENT},
+    {PORT_B3, PORT_PIN_OUTPUT, PORT_PIN_HIGH_LEVEL, PORT_DIO_MODE, PORT_INTERNAL_PULL_DOWN_MODE, PORT_8MA_OUTPUT_CURRENT}
 };
-
 /**********************************************************************************************************************
  *  LOCAL FUNCTION PROTOTYPES
  *********************************************************************************************************************/
@@ -44,8 +45,6 @@ const Gpt_ConfigType GptConfigArray[GPT_CONFIGURED_TIMERS] =
  *  GLOBAL FUNCTIONS
  *********************************************************************************************************************/
 
-
-
 /**********************************************************************************************************************
- *  END OF FILE: FileName.c
+ *  END OF FILE: Port_Lcfg.c
  *********************************************************************************************************************/

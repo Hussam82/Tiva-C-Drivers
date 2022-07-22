@@ -61,7 +61,7 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
 {   
     /* Initialize the timer */
     uint8 counter;
-    for(counter = 0; counter < GPT_CONFIG_NUM_TIMERS; counter++)
+    for(counter = 0; counter < GPT_CONFIGURED_TIMERS; counter++)
     {
         /* Give an error if the user chose a max tick value higher than the chosen timer */
         //ASSERT(ConfigPtr[counter].GptChannelId < 6 && ConfigPtr[counter].GptChannelTickValueMax > 65536);
@@ -76,7 +76,7 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
         uint8 ReqBit = ConfigPtr[counter].GptChannelId < 6 ? (ConfigPtr[counter].GptChannelId):(ConfigPtr[counter].GptChannelId - 6);
 
         /* Enable Clock for the desired Timer Channel */
-        SET_BIT(RCGC_TIMER(ConfigPtr[counter].GptChannelId), ReqBit);
+        SET_BIT(SYSCTL_RCGC_TIMER(ConfigPtr[counter].GptChannelId), ReqBit);
 
         /* Disable the desired timer channel in GPTMCTL */
         CLEAR_BIT(GPTMCTL(ConfigPtr[counter].GptChannelId), GPTMCTL_TAEN_BIT);
@@ -141,7 +141,7 @@ Gpt_ValueType Gpt_GetTimeElapsed(Gpt_ChannelType Channel)
     uint8 Counter, Prescaler_Bits;
     uint32 ElapsedCounts = 0x0;
     float32 ElapsedTime = 0x0;
-    for(Counter = 0; Counter < GPT_CONFIG_NUM_TIMERS; Counter++)
+    for(Counter = 0; Counter < GPT_CONFIGURED_TIMERS; Counter++)
     {
         if(GptConfigArray[Counter].GptChannelId == Channel)
         {
@@ -161,7 +161,7 @@ Gpt_ValueType Gpt_GetTimeRemaining(Gpt_ChannelType Channel)
     uint32 ElapsedCounts = 0x0;
     uint32 RemainingCounts = 0x0;
     float32 RemainingTime = 0x0;
-    for(Counter = 0; Counter < GPT_CONFIG_NUM_TIMERS; Counter++)
+    for(Counter = 0; Counter < GPT_CONFIGURED_TIMERS; Counter++)
     {
         if(GptConfigArray[Counter].GptChannelId == Channel)
         {

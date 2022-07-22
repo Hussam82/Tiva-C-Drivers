@@ -34,8 +34,9 @@
 #define WIDE_TIMER_3_BASE_ADDRESS       0x4004D000
 #define WIDE_TIMER_4_BASE_ADDRESS       0x4004E000
 #define WIDE_TIMER_5_BASE_ADDRESS       0x4004F000
-#define RCGCTIMER_ADDRESS               0x400FE604
-#define RCGCWTIMER_ADDRESS              0x400FE65C
+#define SYSCTL_RCGCTIMER_ADDRESS        0x400FE604
+#define SYSCTL_RCGCWTIMER_ADDRESS       0x400FE65C
+
 /* Bit fields in GPTMCTL Register */
 #define GPTMCTL_TAEN_BIT                   0
 /* Bit fields in GPTMTnMR Register */
@@ -47,34 +48,6 @@
 #define GPTMIMR_TAMIM_BIT                  4
 #define GPTMIMR_TATOIM_BIT                 0
 
-
-/* Pointers to the same structure as each timer has the same registers */
-/* #define GPT_TIMER_0_PERIPH                         ((volatile GPT_Regs*)TIMER_0_BASE_ADDRESS)        
-#define GPT_TIMER_1_PERIPH                         ((volatile GPT_Regs*)TIMER_1_BASE_ADDRESS)      
-#define GPT_TIMER_2_PERIPH                         ((volatile GPT_Regs*)TIMER_2_BASE_ADDRESS)      
-#define GPT_TIMER_3_PERIPH                         ((volatile GPT_Regs*)TIMER_3_BASE_ADDRESS)      
-#define GPT_TIMER_4_PERIPH                         ((volatile GPT_Regs*)TIMER_4_BASE_ADDRESS)      
-#define GPT_TIMER_5_PERIPH                         ((volatile GPT_Regs*)TIMER_5_BASE_ADDRESS)      
-#define GPT_WIDE_TIMER_0_PERIPH                    ((volatile GPT_Regs*)WIDE_TIMER_0_BASE_ADDRESS)      
-#define GPT_WIDE_TIMER_1_PERIPH                    ((volatile GPT_Regs*)WIDE_TIMER_1_BASE_ADDRESS)      
-#define GPT_WIDE_TIMER_2_PERIPH                    ((volatile GPT_Regs*)WIDE_TIMER_2_BASE_ADDRESS)      
-#define GPT_WIDE_TIMER_3_PERIPH                    ((volatile GPT_Regs*)WIDE_TIMER_3_BASE_ADDRESS)      
-#define GPT_WIDE_TIMER_4_PERIPH                    ((volatile GPT_Regs*)WIDE_TIMER_4_BASE_ADDRESS)      
-#define GPT_WIDE_TIMER_5_PERIPH                    ((volatile GPT_Regs*)WIDE_TIMER_5_BASE_ADDRESS)    */
-
-/* The last register has its own offset outside the structure */
-/* #define GPT_TIMER_0_GPTPP                         ((volatile uint32)TIMER_0_BASE_ADDRESS + GPTPP_OFFSET)        
-#define GPT_TIMER_1_GPTPP                         ((volatile uint32)TIMER_1_BASE_ADDRESS + GPTPP_OFFSET)      
-#define GPT_TIMER_2_GPTPP                         ((volatile uint32)TIMER_2_BASE_ADDRESS + GPTPP_OFFSET)      
-#define GPT_TIMER_3_GPTPP                         ((volatile uint32)TIMER_3_BASE_ADDRESS + GPTPP_OFFSET)      
-#define GPT_TIMER_4_GPTPP                         ((volatile uint32)TIMER_4_BASE_ADDRESS + GPTPP_OFFSET)      
-#define GPT_TIMER_5_GPTPP                         ((volatile uint32)TIMER_5_BASE_ADDRESS + GPTPP_OFFSET)      
-#define GPT_WIDE_TIMER_0_GPTPP                    ((volatile uint32)WIDE_TIMER_0_BASE_ADDRESS + GPTPP_OFFSET)      
-#define GPT_WIDE_TIMER_1_GPTPP                    ((volatile uint32)WIDE_TIMER_1_BASE_ADDRESS + GPTPP_OFFSET)      
-#define GPT_WIDE_TIMER_2_GPTPP                    ((volatile uint32)WIDE_TIMER_2_BASE_ADDRESS + GPTPP_OFFSET)      
-#define GPT_WIDE_TIMER_3_GPTPP                    ((volatile uint32)WIDE_TIMER_3_BASE_ADDRESS + GPTPP_OFFSET)      
-#define GPT_WIDE_TIMER_4_GPTPP                    ((volatile uint32)WIDE_TIMER_4_BASE_ADDRESS + GPTPP_OFFSET)      
-#define GPT_WIDE_TIMER_5_GPTPP                    ((volatile uint32)WIDE_TIMER_5_BASE_ADDRESS + GPTPP_OFFSET)    */
 
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION MACROS
@@ -109,40 +82,9 @@
 #define GPTMTBPV(x)             *((volatile uint32*)(GPT_OFFSET(x) + 0x068))
 #define GPTMPP(x)               *((volatile uint32*)(GPT_OFFSET(x) + 0xFC0))
 /* General-Purpose Timer Run Mode Clock Gating Control */
-#define RCGCTIMER               RCGCTIMER_ADDRESS
-#define RCGCWTIMER              RCGCWTIMER_ADDRESS
-#define RCGC_TIMER(x)           *(volatile uint32*)(x<6? RCGCTIMER:RCGCWTIMER)
+#define SYSCTL_RCGC_TIMER(x)           *(volatile uint32*)(x<6? SYSCTL_RCGCTIMER_ADDRESS:SYSCTL_RCGCWTIMER_ADDRESS)
 
 
-
-/* typedef struct{
-    volatile uint32 GPTMCFG;
-    volatile uint32 GPTMTAMR;
-    volatile uint32 GPTMTBMR;
-    volatile uint32 GPTMCTL;
-    volatile uint32 GPTMSYNC;
-    volatile uint32 GPTMIMR;
-    volatile uint32 GPTMRIS;
-    volatile uint32 GPTMMIS;
-    volatile uint32 GPTMICR;
-    volatile uint32 GPTMTAILR;
-    volatile uint32 GPTMBILR;
-    volatile uint32 GPTMTAMATCHR;
-    volatile uint32 GPTMTBMATCHR;
-    volatile uint32 GPTMTAPR;
-    volatile uint32 GPTMTBPR;
-    volatile uint32 GPTMTAPMR;
-    volatile uint32 GPTMTBPMR;
-    volatile uint32 GPTMTAR;
-    volatile uint32 GPTMTBR;
-    volatile uint32 GPTMTAV;
-    volatile uint32 GPTMTBV;
-    volatile uint32 GPTMRTCPD;
-    volatile uint32 GPTMTAPS;
-    volatile uint32 GPTMTBPS;
-    volatile uint32 GPTMTAPV;
-    volatile uint32 GPTMTBPV;
-}GPT_Regs; */
 
 /**********************************************************************************************************************
  *  GLOBAL DATA TYPES AND STRUCTURES

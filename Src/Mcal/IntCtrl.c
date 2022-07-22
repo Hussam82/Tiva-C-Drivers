@@ -57,7 +57,7 @@ void IntCrtl_Init(void)
     SCB_PERIPH->APINT = INTCTRL_GROUP_SUB_DIST;
     uint8 intNumber,intPosition,intPriNumber;
     /* Loop to cover all the interrupts in the config struct array */
-    for(intNumber = 0; intNumber < INTCTRL_CONFIG_NUM_INTERRUPTS; intNumber++)
+    for(intNumber = 0; intNumber < INTCTRL_CONFIGURED_INTERRUPTS; intNumber++)
     {
 		if(intNumber == 25 || intNumber == 26 || intNumber == 27)
 			continue;

@@ -28,7 +28,7 @@
  *  GLOBAL DATA
  *********************************************************************************************************************/
 /* You have to change the Number of interrupts required in cfg.h for this to work */
-const IntCtrl_ConfigStruct InterruptsConfigArray[INTCTRL_CONFIG_NUM_INTERRUPTS] =
+const IntCtrl_ConfigStruct InterruptsConfigArray[INTCTRL_CONFIGURED_INTERRUPTS] =
 {
 	{TIMER_1A_16_32,						                			ENABLED, GROUP_0_SUB_0}
 };
