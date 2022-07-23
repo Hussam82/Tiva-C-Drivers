@@ -63,6 +63,8 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
     uint8 counter;
     for(counter = 0; counter < GPT_CONFIGURED_TIMERS; counter++)
     {
+      //added (clear the flag)
+       //SET_BIT(GPTMICR(ConfigPtr[counter].GptChannelId), GPTMICR_TAMCINT_BIT);
         /* Give an error if the user chose a max tick value higher than the chosen timer */
         //ASSERT(ConfigPtr[counter].GptChannelId < 6 && ConfigPtr[counter].GptChannelTickValueMax > 65536);
 
@@ -90,11 +92,16 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
         /* Insert the required mode in the first 2 bits of GPTMAMR Register */
         GPTMTAMR(ConfigPtr[counter].GptChannelId) |= ConfigPtr[counter].GptChannelMode;
 
+        
+        /* Insert the required prescaler in the GPTMAPTR */
+        GPTMTAPR(ConfigPtr[counter].GptChannelId) = ConfigPtr[counter].GptChannelTickFrequency;
+        
+        
+        
         /* Select Count up Mode */
         SET_BIT(GPTMTAMR(ConfigPtr[counter].GptChannelId), GPTMTAMR_TACDIR_BIT);
 
-        /* Insert the required prescaler in the GPTMAPTR */
-        GPTMTAPR(ConfigPtr[counter].GptChannelId) = ConfigPtr[counter].GptChannelTickFrequency;
+
     }
 }
 
@@ -112,7 +119,7 @@ void Gpt_EnableNotification(Gpt_ChannelType Channel)
     /* Enable the Timer interrupt */
     SET_BIT(GPTMTAMR(Channel), GPTMTAMR_TAMIE_BIT);  
 
-    /* Enable the timer match interrupt */
+    /* Enable the timer time-out interrupt */
     SET_BIT(GPTMIMR(Channel), GPTMIMR_TATOIM_BIT);
     
     /* Enable the timer match interrupt */
@@ -123,11 +130,35 @@ void Gpt_EnableNotification(Gpt_ChannelType Channel)
 //    SET_BIT(GPTMIMR(Channel), 0);
 }
 
-void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value)
+void Gpt_StartTimerPolling(Gpt_ChannelType Channel, Gpt_ValueType Value)
 {
+  
+    
     /* Load the value in GPTMTAILR Register */
     GPTMTAILR(Channel) = Value;
+    
+    /* Clear the TimeOut Interrupt Flag */
+    SET_BIT(GPTMICR(Channel), GPTMICR_TATOCINT_BIT);
 
+    /* Start counting */
+    SET_BIT(GPTMCTL(Channel), GPTMCTL_TAEN_BIT);
+
+    /* Wait untill the flag is 1 */
+    while(BIT_IS_CLEAR(GPTMRIS(Channel),GPTMRIS_TATORIS_BIT)){}
+
+    /* Clear the TimeOut Interrupt Flag */
+    SET_BIT(GPTMICR(Channel),GPTMICR_TATOCINT_BIT);
+
+}
+
+void Gpt_StartTimerInterrupts(Gpt_ChannelType Channel, Gpt_ValueType Value)
+{
+    /* Clear the TimeOut Interrupt Flag */
+    SET_BIT(GPTMICR(Channel), GPTMICR_TATOCINT_BIT);
+
+    /* Load the value in GPTMTAILR Register */
+    GPTMTAILR(Channel) = Value;
+    
     /* Start counting */
     SET_BIT(GPTMCTL(Channel), GPTMCTL_TAEN_BIT);
 }
@@ -178,16 +209,14 @@ Gpt_ValueType Gpt_GetTimeRemaining(Gpt_ChannelType Channel)
     RemainingTime = (1.0 / 16000000UL) * RemainingCounts;
     return RemainingTime;
 }
-/***************************************************************************/
 
-
-void TIMER0A_Handler(void)
+void TIMER0A_Handler(void )
 {
     if(Gpt_CallBackPtr[GPT_TIMER_0]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_TIMER_0])();
-        /* Clear the TAMCINT flag */
-        SET_BIT(GPTMICR(GPT_TIMER_0), GPTMICR_TAMCINT_BIT);
+        /* Clear the TimeOut Interrupt Flag */
+        SET_BIT(GPTMICR(GPT_TIMER_0), GPTMICR_TATOCINT_BIT);
     }
 }
 
@@ -196,8 +225,8 @@ void TIMER1A_Handler(void)
     if(Gpt_CallBackPtr[GPT_TIMER_1]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_TIMER_1])();
-        /* Clear the TAMCINT flag */
-        SET_BIT(GPTMICR(GPT_TIMER_1), GPTMICR_TAMCINT_BIT);
+        /* Clear the TimeOut Interrupt Flag */
+        SET_BIT(GPTMICR(GPT_TIMER_1), GPTMICR_TATOCINT_BIT);
     }
 }
 
@@ -206,8 +235,8 @@ void TIMER2A_Handler(void)
     if(Gpt_CallBackPtr[GPT_TIMER_2]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_TIMER_2])();
-        /* Clear the TAMCINT flag */
-        SET_BIT(GPTMICR(GPT_TIMER_2), GPTMICR_TAMCINT_BIT);
+        /* Clear the TimeOut Interrupt Flag */
+        SET_BIT(GPTMICR(GPT_TIMER_2), GPTMICR_TATOCINT_BIT);
     }
 }
 
@@ -216,8 +245,8 @@ void TIMER3A_Handler(void)
     if(Gpt_CallBackPtr[GPT_TIMER_3]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_TIMER_3])();
-        /* Clear the TAMCINT flag */
-        SET_BIT(GPTMICR(GPT_TIMER_3), GPTMICR_TAMCINT_BIT);
+        /* Clear the TimeOut Interrupt Flag */
+        SET_BIT(GPTMICR(GPT_TIMER_3), GPTMICR_TATOCINT_BIT);
     }
 }
 
@@ -226,8 +255,8 @@ void TIMER4A_Handler(void)
     if(Gpt_CallBackPtr[GPT_TIMER_4]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_TIMER_4])();
-        /* Clear the TAMCINT flag */
-        SET_BIT(GPTMICR(GPT_TIMER_4), GPTMICR_TAMCINT_BIT);
+        /* Clear the TimeOut Interrupt Flag */
+        SET_BIT(GPTMICR(GPT_TIMER_4), GPTMICR_TATOCINT_BIT);
     }
 }
 
@@ -236,8 +265,8 @@ void TIMER5A_Handler(void)
     if(Gpt_CallBackPtr[GPT_TIMER_5]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_TIMER_5])();
-        /* Clear the TAMCINT flag */
-        SET_BIT(GPTMICR(GPT_TIMER_5), GPTMICR_TAMCINT_BIT);
+        /* Clear the TimeOut Interrupt Flag */
+        SET_BIT(GPTMICR(GPT_TIMER_5), GPTMICR_TATOCINT_BIT);
     }
 }
 
@@ -246,8 +275,8 @@ void WTIMER0A_Handler(void)
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_0]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_WIDE_TIMER_0])();
-        /* Clear the TAMCINT flag */
-        SET_BIT(GPTMICR(GPT_WIDE_TIMER_0), GPTMICR_TAMCINT_BIT);
+        /* Clear the TimeOut Interrupt Flag */
+        SET_BIT(GPTMICR(GPT_WIDE_TIMER_0), GPTMICR_TATOCINT_BIT);
     }
 }
 
@@ -256,8 +285,8 @@ void WTIMER1A_Handler(void)
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_1]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_WIDE_TIMER_1])();
-        /* Clear the TAMCINT flag */
-        SET_BIT(GPTMICR(GPT_WIDE_TIMER_1), GPTMICR_TAMCINT_BIT);
+        /* Clear the TimeOut Interrupt Flag */
+        SET_BIT(GPTMICR(GPT_WIDE_TIMER_1), GPTMICR_TATOCINT_BIT);
     }
 }
 
@@ -266,8 +295,8 @@ void WTIMER2A_Handler(void)
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_2]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_WIDE_TIMER_2])();
-        /* Clear the TAMCINT flag */
-        SET_BIT(GPTMICR(GPT_WIDE_TIMER_2), GPTMICR_TAMCINT_BIT);
+        /* Clear the TimeOut Interrupt Flag */
+        SET_BIT(GPTMICR(GPT_WIDE_TIMER_2), GPTMICR_TATOCINT_BIT);
     }
 }
 
@@ -276,8 +305,8 @@ void WTIMER3A_Handler(void)
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_3]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_WIDE_TIMER_3])();
-        /* Clear the TAMCINT flag */
-        SET_BIT(GPTMICR(GPT_WIDE_TIMER_3), GPTMICR_TAMCINT_BIT);
+        /* Clear the TimeOut Interrupt Flag */
+        SET_BIT(GPTMICR(GPT_WIDE_TIMER_3), GPTMICR_TATOCINT_BIT);
     }
 }
 
@@ -286,8 +315,8 @@ void WTIMER4A_Handler(void)
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_4]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_WIDE_TIMER_4])();
-        /* Clear the TAMCINT flag */
-        SET_BIT(GPTMICR(GPT_WIDE_TIMER_4), GPTMICR_TAMCINT_BIT);
+        /* Clear the TimeOut Interrupt Flag */
+        SET_BIT(GPTMICR(GPT_WIDE_TIMER_4), GPTMICR_TATOCINT_BIT);
     }
 }
 
@@ -296,8 +325,8 @@ void WTIMER5A_Handler(void)
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_5]!= NULL_PTR)
     {
         (*Gpt_CallBackPtr[GPT_WIDE_TIMER_5])();
-        /* Clear the TAMCINT flag */
-        SET_BIT(GPTMICR(GPT_WIDE_TIMER_5), GPTMICR_TAMCINT_BIT);
+        /* Clear the TimeOut Interrupt Flag */
+        SET_BIT(GPTMICR(GPT_WIDE_TIMER_5), GPTMICR_TATOCINT_BIT);
     }
 }
 

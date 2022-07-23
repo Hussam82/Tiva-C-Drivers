@@ -99,12 +99,12 @@ void Port_Init(const Port_ConfigType* ConfigPtr)
             SET_BIT(GPIODEN(PortNum), PinNum);
 
             /* Disable the Analog Mode for this pin */
-            SET_BIT(GPIOAMSEL(PortNum), PinNum);
+            CLEAR_BIT(GPIOAMSEL(PortNum), PinNum);
         }
         else if(ConfigPtr[Counter].PortPinMode == PORT_ADC_MODE) 
         {
-            /* Enable Alternative Function for this pin */
-            SET_BIT(GPIOAFSEL(PortNum), PinNum);
+            /* Disable Alternative Function for this pin */
+            CLEAR_BIT(GPIOAFSEL(PortNum), PinNum);
 
             /* Disable Digital Mode for this pin */
             CLEAR_BIT(GPIODEN(PortNum), PinNum);
@@ -112,9 +112,6 @@ void Port_Init(const Port_ConfigType* ConfigPtr)
             /* Enable the Analog Mode for this pin */
             SET_BIT(GPIOAMSEL(PortNum), PinNum);
 
-            /* Select this pin to work as ADC Channel */
-            GPIOPCTL(PortNum)  &= ~((0b1111)<<(PinNum * 4));
-			GPIOPCTL(PortNum)  |=  ((ConfigPtr[Counter].PortPinMode)<<(PinNum * 4));
         }
         else
         {

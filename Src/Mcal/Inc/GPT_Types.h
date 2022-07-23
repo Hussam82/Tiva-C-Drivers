@@ -52,22 +52,22 @@ typedef enum{
 
 typedef enum{
     GPT_NO_PS,
-    GPT_PS_2,
-    GPT_PS_4,
-    GPT_PS_8,
-    GPT_PS_16,
-    GPT_PS_32,
-    GPT_PS_64,
-    GPT_PS_128,
-    GPT_PS_256,
-    GPT_PS_512,
-    GPT_PS_1024,
-    GPT_PS_2048,
-    GPT_PS_4096,
-    GPT_PS_8192,
-    GPT_PS_16384,
-    GPT_PS_32768,
-    GPT_PS_65536
+    GPT_PS_2 = 2,
+    GPT_PS_4 = 4,
+    GPT_PS_8 = 8,
+    GPT_PS_16 = 16,
+    GPT_PS_32 = 32,
+    GPT_PS_64 = 64,
+    GPT_PS_128 = 128,
+    GPT_PS_256 = 255,
+    GPT_PS_512 = 512,
+    GPT_PS_1024 = 1024,
+    GPT_PS_2048 = 2048,
+    GPT_PS_4096 = 4096,
+    GPT_PS_8192 = 8192,
+    GPT_PS_16384 = 16384,
+    GPT_PS_32768 = 32768,
+    GPT_PS_65536 = 65535
 }Gpt_PrescalerType;
 
 typedef enum{
