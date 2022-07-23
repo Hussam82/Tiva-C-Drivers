@@ -14,7 +14,7 @@
  *********************************************************************************************************************/
 #include "Std_Types.h"
 #include "Port.h"
-#include "Port_Regs.h"
+#include "Mcu_Hw.h"
 /**********************************************************************************************************************
 *  LOCAL MACROS CONSTANT\FUNCTION
 *********************************************************************************************************************/
@@ -66,6 +66,11 @@ void Port_Init(const Port_ConfigType* ConfigPtr)
 
         /* Enable the clock for the Pin */
         SET_BIT(SYSCTL_RCGCGPIO_REG, PortNum);
+
+        /* Enable the AHB Bus for GPIO */
+        #if GPIO_MODE == GPIO_AHB
+        SET_BIT(SYSCTL_GPIOHBCTL_REG, PortNum);
+        #endif
 
         /* Handling the special Registers PC0 - PC3 */
         /* Warning: Skip JTAG pins PC0:3 of Tiva-C as they can not be operated as a gpio pins to avoid locking the mcu */
@@ -150,7 +155,8 @@ void Port_Init(const Port_ConfigType* ConfigPtr)
             if(ConfigPtr[Counter].PortPinLevel == PORT_PIN_HIGH_LEVEL)
             {
                 /* Write one to PinNum in PortNum */
-                //GPIODATA_PORT_PIN(PortNum, PinNum) = 1;
+                //PORTA_PIN4 = 0x10;
+                //GPIODATA_PORT_PIN(PortNum, PinNum) |= 1<<PinNum;
                 GPIODATA(PortNum) |= (1<<PinNum);
             }
             else if(ConfigPtr[Counter].PortPinDirection == PORT_PIN_LOW_LEVEL)

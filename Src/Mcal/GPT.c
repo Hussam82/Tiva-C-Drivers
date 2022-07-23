@@ -13,7 +13,7 @@
  *  INCLUDES
  *********************************************************************************************************************/
 #include "Std_Types.h"
-#include "GPT_Regs.h"
+#include "Mcu_Hw.h"
 #include "GPT.h"
 /**********************************************************************************************************************
 *  LOCAL MACROS CONSTANT\FUNCTION
@@ -82,6 +82,9 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
         CLEAR_BIT(GPTMCTL(ConfigPtr[counter].GptChannelId), GPTMCTL_TAEN_BIT);
 
         /* For a 16/32-bit timer, this value selects the 16-bit timer configuration */
+        GPTMCFG(ConfigPtr[counter].GptChannelId) = 0x0;
+
+        /* For a 16/32-bit timer, this value selects the 16-bit timer configuration */
         GPTMCFG(ConfigPtr[counter].GptChannelId) = 0x4;
 
         /* Insert the required mode in the first 2 bits of GPTMAMR Register */
@@ -101,7 +104,7 @@ void Gpt_DisableNotification(Gpt_ChannelType Channel)
     CLEAR_BIT(GPTMTAMR(Channel), GPTMTAMR_TAMIE_BIT);
 
     /* Disable the Timer match interrupt */
-    CLEAR_BIT(GPTMIMR(Channel), GPTMIMR_TAMIM_BIT);
+    CLEAR_BIT(GPTMIMR(Channel), GPTMIMR_TATOIM_BIT);
 }
 
 void Gpt_EnableNotification(Gpt_ChannelType Channel)
@@ -110,7 +113,7 @@ void Gpt_EnableNotification(Gpt_ChannelType Channel)
     SET_BIT(GPTMTAMR(Channel), GPTMTAMR_TAMIE_BIT);  
 
     /* Enable the timer match interrupt */
-    SET_BIT(GPTMIMR(Channel), GPTMIMR_TAMIM_BIT);
+    SET_BIT(GPTMIMR(Channel), GPTMIMR_TATOIM_BIT);
     
     /* Enable the timer match interrupt */
 //    SET_BIT(GPTMIMR(Channel), 2);
@@ -122,8 +125,8 @@ void Gpt_EnableNotification(Gpt_ChannelType Channel)
 
 void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value)
 {
-    /* Load the value in GPTMTAMATCHR Register */
-    GPTMTAMATCHR(Channel) = Value;
+    /* Load the value in GPTMTAILR Register */
+    GPTMTAILR(Channel) = Value;
 
     /* Start counting */
     SET_BIT(GPTMCTL(Channel), GPTMCTL_TAEN_BIT);
