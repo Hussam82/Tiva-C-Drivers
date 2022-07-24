@@ -34,6 +34,7 @@ void Port_Init(const Port_ConfigType* ConfigPtr)
     uint8 Counter;
     uint8 PortNum;
     uint8 PinNum;
+	uint8 temp;
     for(Counter = 0; Counter < PORT_CONFIGURED_PINS; Counter++)
     {
         /* Get the Port Number */
@@ -45,6 +46,9 @@ void Port_Init(const Port_ConfigType* ConfigPtr)
         /* Enable the clock for the Pin */
         SET_BIT(SYSCTL_RCGCGPIO_REG, PortNum);
 
+		/* Delay after setting the clock */
+		temp = 0;
+				
         /* Enable the AHB Bus for GPIO */
         #if GPIO_MODE == GPIO_AHB
         SET_BIT(SYSCTL_GPIOHBCTL_REG, PortNum);
@@ -89,7 +93,6 @@ void Port_Init(const Port_ConfigType* ConfigPtr)
 
             /* Enable the Analog Mode for this pin */
             SET_BIT(GPIOAMSEL(PortNum), PinNum);
-
         }
         else
         {
@@ -97,7 +100,7 @@ void Port_Init(const Port_ConfigType* ConfigPtr)
             SET_BIT(GPIOAFSEL(PortNum), PinNum);
 
             /* Select the exact Alternative Function for this pin */
-            GPIOPCTL(PortNum)  &= ~((0b1111)<<(PinNum * 4));
+            GPIOPCTL(PortNum)  &= ~((0x0000000F)<<(PinNum * 4));
 			GPIOPCTL(PortNum)  |=  ((ConfigPtr[Counter].PortPinMode)<<(PinNum * 4));
         }
 

@@ -151,8 +151,8 @@ typedef struct{
 #define SYSCTL_GPIOHBCTL_ADDRESS 0x400FE06C
 
 /* By using Bit Specific addressing to access the GPIODATA register for each port */
-#define GPIODATA_PORT_PIN(x,y)      *((volatile uint32*)(GPIO_OFFSET(x) + (1<<(2 + y))))    /* This macro to be able to write to a pin y in port x */
 #define GPIODATA(x)                 *((volatile uint32*)(GPIO_OFFSET(x) + 0x3FC))           /* If written to this register, it will write to the whole port */
+#define GPIODATA_PORT_PIN(x,y)      *((volatile uint32*)(GPIODATA(x) + (1<<(2 + y))))    /* This macro to be able to write to a pin y in port x */
 #define GPIODIR(x)                  *((volatile uint32*)(GPIO_OFFSET(x) + 0x400))
 #define GPIOIS(x)                   *((volatile uint32*)(GPIO_OFFSET(x) + 0x404))
 #define GPIOIBE(x)                  *((volatile uint32*)(GPIO_OFFSET(x) + 0x408))

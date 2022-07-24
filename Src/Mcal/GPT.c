@@ -97,9 +97,6 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
 *******************************************************************************/
 void Gpt_DisableNotification(Gpt_ChannelType Channel)
 {
-    /* Disable the Timer interrupt */
-    CLEAR_BIT(GPTMTAMR(Channel), GPTMTAMR_TAMIE_BIT);
-
     /* Disable the Timer match interrupt */
     CLEAR_BIT(GPTMIMR(Channel), GPTMIMR_TATOIM_BIT);
 }
@@ -115,12 +112,8 @@ void Gpt_DisableNotification(Gpt_ChannelType Channel)
 *******************************************************************************/
 void Gpt_EnableNotification(Gpt_ChannelType Channel)
 {
-    /* Enable the Timer interrupt */
-    SET_BIT(GPTMTAMR(Channel), GPTMTAMR_TAMIE_BIT);  
-
     /* Enable the timer time-out interrupt */
     SET_BIT(GPTMIMR(Channel), GPTMIMR_TATOIM_BIT);
-
 }
 
 /******************************************************************************
@@ -135,9 +128,6 @@ void Gpt_EnableNotification(Gpt_ChannelType Channel)
 *******************************************************************************/
 void Gpt_StartTimerPollingMode(Gpt_ChannelType Channel, Gpt_ValueType Value)
 {
-      /* Clear the TimeOut Interrupt Flag */
-    SET_BIT(GPTMICR(Channel), GPTMICR_TATOCINT_BIT);
-
     /* Load the value in GPTMTAILR Register */
     GPTMTAILR(Channel) = Value;
     
@@ -149,7 +139,6 @@ void Gpt_StartTimerPollingMode(Gpt_ChannelType Channel, Gpt_ValueType Value)
 
     /* Clear the TimeOut Interrupt Flag */
     SET_BIT(GPTMICR(Channel),GPTMICR_TATOCINT_BIT);
-
 }
 
 /******************************************************************************
@@ -164,9 +153,6 @@ void Gpt_StartTimerPollingMode(Gpt_ChannelType Channel, Gpt_ValueType Value)
 *******************************************************************************/
 void Gpt_StartTimerInterruptMode(Gpt_ChannelType Channel, Gpt_ValueType Value)
 {
-    /* Clear the TimeOut Interrupt Flag */
-    SET_BIT(GPTMICR(Channel), GPTMICR_TATOCINT_BIT);
-
     /* Load the value in GPTMTAILR Register */
     GPTMTAILR(Channel) = Value;
     

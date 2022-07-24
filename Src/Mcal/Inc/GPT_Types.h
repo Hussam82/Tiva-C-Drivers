@@ -46,7 +46,7 @@ typedef enum{
 }Gpt_ChannelType;
 
 typedef enum{
-    GPT_NO_PS,
+    GPT_NO_PS = 1,
     GPT_PS_2 = 2,
     GPT_PS_4 = 4,
     GPT_PS_8 = 8,

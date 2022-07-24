@@ -69,11 +69,14 @@ void Dio_WriteChannel(Dio_ChannelType ChannelId, Dio_LevelType Level)
     {
         /* Set the PinNum */
         GPIODATA(PortNum) |= (1<<PinNum);
+        //GPIODATA_PORT_PIN(PortNum,PinNum) = 0xFF;
+
     }
     else if(Level == PIN_LOW)
     {
         /* Clear the PinNum */
         GPIODATA(PortNum) &= ~(1<<PinNum);
+        //GPIODATA_PORT_PIN(PortNum,PinNum) = 0x00;
     }
     else
     {
@@ -122,7 +125,15 @@ void Dio_WritePort(Dio_ChannelType ChannelId, Dio_PortLevelType Level)
     PortNum = ChannelId / 8; 
 
     /* Write the value to the GPIODATA */
-    GPIODATA(PortNum) = Level;
+    if(Level = PIN_HIGH)
+    {
+        GPIODATA(PortNum) = 0xFF;
+    }
+    else if(Level = PIN_HIGH)
+    {
+        GPIODATA(PortNum) = 0x00;
+    }
+    
 
 }
 

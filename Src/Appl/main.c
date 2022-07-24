@@ -2,7 +2,7 @@
 #include "GPT.h"
 #include "Port.h"
 #include "Dio.h"
-
+#include "Mcu_Hw.h"
 /* Global Variable to hold the ticks as each tick is 1 second */
 static volatile uint8 g_Ticks = 0;
 
@@ -45,7 +45,9 @@ int main(void)
 
 	/* Initialize the Port with PIN_F1 as DIO */
 	Port_Init(PortConfigArray);
-
+	
+	Dio_WritePort(PORT_F1, PIN_HIGH);
+	
 	/* Enable the Notification for Timer1A */
 	Gpt_EnableNotification(GPT_TIMER_1);
 
