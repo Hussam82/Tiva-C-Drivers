@@ -23,7 +23,7 @@ int main(void)
 	
 	
 	Gpt_EnableNotification(GPT_TIMER_1);
-	Gpt_StartTimer(GPT_TIMER_1, 1000);
+	Gpt_StartTimerInterrupts(GPT_TIMER_1, 64000 - 1);
 	while(1)
 	{
 		 

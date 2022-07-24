@@ -2,10 +2,10 @@
 
  *  FILE DESCRIPTION
  *  -------------------------------------------------------------------------------------------------------------------
- *         File:  <Write File Name>
- *       Module:  -
+ *         File:  GPT_Cfg.h
+ *       Module:  General Purpose Timers
  *
- *  Description:  <Write File DESCRIPTION here>     
+ *  Description:  Static Configrations for GPT     
  *  
  *********************************************************************************************************************/
 #ifndef GPT_CFG_H

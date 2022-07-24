@@ -4,7 +4,7 @@
 /**        \file  IntCrtl.c
  *        \brief  Nested Vector Interrupt Controller Driver
  *
- *      \details  The Driver Configure All MCU interrupts Priority into gorups and subgroups
+ *      \details  The Driver Configure All MCU interrupts Priority into groups and subgroups
  *                Enable NVIC Interrupt Gate for Peripherals
  *
  *********************************************************************************************************************/
@@ -14,30 +14,10 @@
  *********************************************************************************************************************/
 #include "IntCtrl.h"
 #include "Mcu_Hw.h"
-/**********************************************************************************************************************
-*  LOCAL MACROS CONSTANT\FUNCTION
-*********************************************************************************************************************/	
-
-/**********************************************************************************************************************
- *  LOCAL DATA 
- *********************************************************************************************************************/
-
-/**********************************************************************************************************************
- *  GLOBAL DATA
- *********************************************************************************************************************/
-
-/**********************************************************************************************************************
- *  LOCAL FUNCTION PROTOTYPES
- *********************************************************************************************************************/
-
-/**********************************************************************************************************************
- *  LOCAL FUNCTIONS
- *********************************************************************************************************************/
 
 /**********************************************************************************************************************
  *  GLOBAL FUNCTIONS
  *********************************************************************************************************************/
-
 
 /******************************************************************************
 * \Syntax          : void IntCrtl_Init(void)                                      
@@ -87,46 +67,46 @@ void IntCrtl_Init(void)
         {
             if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 0 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 31)
             {
-                SET_BIT(INTCTRL_PERIPH->ENx[0], InterruptsConfigArray[intNumber].InterrupPeripheralGates);
+                INTCTRL_PERIPH->ENx[0] = (1 << InterruptsConfigArray[intNumber].InterrupPeripheralGates);
             }
             else if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 32 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 63)
             {
-                SET_BIT(INTCTRL_PERIPH->ENx[1], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 32);
+                INTCTRL_PERIPH->ENx[1] = (1 << InterruptsConfigArray[intNumber].InterrupPeripheralGates - 32);
             }
             else if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 64 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 95)
             {
-                SET_BIT(INTCTRL_PERIPH->ENx[2], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 64);
+                INTCTRL_PERIPH->ENx[2] = (1 << InterruptsConfigArray[intNumber].InterrupPeripheralGates - 64);
             }
             else if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 96 && InterruptsConfigArray[intNumber].InterrupPeripheralGates < 127)
             {
-                SET_BIT(INTCTRL_PERIPH->ENx[3], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 96);
+                INTCTRL_PERIPH->ENx[3] = (1 << InterruptsConfigArray[intNumber].InterrupPeripheralGates - 96);
             }
             else
             {
-                SET_BIT(INTCTRL_PERIPH->ENx[4], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 128);
+                INTCTRL_PERIPH->ENx[4] = (1 << InterruptsConfigArray[intNumber].InterrupPeripheralGates - 128);
             }
-				}
+		}
         else if(InterruptsConfigArray[intNumber].InterruptPeripheralState == DISABLED)
         {
             if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 0 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 31)
             {
-                SET_BIT(INTCTRL_PERIPH->DISx[0], InterruptsConfigArray[intNumber].InterrupPeripheralGates);
+                INTCTRL_PERIPH->DISx[0] = (1 << InterruptsConfigArray[intNumber].InterrupPeripheralGates);
             }
             else if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 32 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 63)
             {
-                SET_BIT(INTCTRL_PERIPH->DISx[1], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 32);
+                INTCTRL_PERIPH->DISx[1] = (1 << InterruptsConfigArray[intNumber].InterrupPeripheralGates - 32);
             }
             else if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 64 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 95)
             {
-                SET_BIT(INTCTRL_PERIPH->DISx[2], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 64);
+                INTCTRL_PERIPH->DISx[2] = (1 << InterruptsConfigArray[intNumber].InterrupPeripheralGates - 64);
             }
             else if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 96 && InterruptsConfigArray[intNumber].InterrupPeripheralGates < 127)
             {
-                SET_BIT(INTCTRL_PERIPH->DISx[3], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 96);
+                INTCTRL_PERIPH->DISx[3] = (1 << InterruptsConfigArray[intNumber].InterrupPeripheralGates - 96);
             }
             else
             {
-                SET_BIT(INTCTRL_PERIPH->DISx[4], InterruptsConfigArray[intNumber].InterrupPeripheralGates - 128);
+                INTCTRL_PERIPH->DISx[4] = (1 << InterruptsConfigArray[intNumber].InterrupPeripheralGates - 128);
             }
         }
     }

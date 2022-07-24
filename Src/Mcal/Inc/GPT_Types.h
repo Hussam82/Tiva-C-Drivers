@@ -2,10 +2,10 @@
 
  *  FILE DESCRIPTION
  *  -------------------------------------------------------------------------------------------------------------------
- *         File:  <Write File Name>
- *       Module:  -
+ *         File:  GPT_Types.h
+ *       Module:  General Purpose Timers
  *
- *  Description:  <Write File DESCRIPTION here>     
+ *  Description:  Contains all the types for GPT     
  *  
  *********************************************************************************************************************/
 #ifndef GPT_TYPES_H

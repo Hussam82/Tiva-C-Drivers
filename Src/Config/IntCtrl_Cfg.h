@@ -3,9 +3,9 @@
  *  FILE DESCRIPTION
  *  -------------------------------------------------------------------------------------------------------------------
  *         File:  IntCtrl_Cfg.h
- *       Module:  -
+ *       Module:  IntCtrl
  *
- *  Description:  <Write File DESCRIPTION here>     
+ *  Description:  Static Configurations for IntCtrl Module     
  *  
  *********************************************************************************************************************/
 #ifndef INTCTRL_CFG_H

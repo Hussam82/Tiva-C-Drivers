@@ -3,9 +3,9 @@
  *  FILE DESCRIPTION
  *  -------------------------------------------------------------------------------------------------------------------
  *         File:  IntCtrl_Types.h
- *       Module:  -
+ *       Module:  IntCtrl
  *
- *  Description:  <Write File DESCRIPTION here>     
+ *  Description:  Contains all the Types for IntCtrl Module     
  *  
  *********************************************************************************************************************/
 #ifndef INTCTRL_TYPES_H

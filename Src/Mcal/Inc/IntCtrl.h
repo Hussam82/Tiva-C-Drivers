@@ -5,7 +5,7 @@
  *         File:  IntCrtl.h
  *       Module:  IntCrtl
  *
- *  Description:  header file for IntCrtl Module    
+ *  Description:  Header file for IntCrtl Module    
  *  
  *********************************************************************************************************************/
 #ifndef IntCrtl_H

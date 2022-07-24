@@ -1,10 +1,14 @@
 /**********************************************************************************************************************
  *  FILE DESCRIPTION
  *  -----------------------------------------------------------------------------------------------------------------*/
-/**        \file  FileName.c
- *        \brief  
+/**        \file  GPT.c
+ *        \brief  General Purpose Timers Driver
  *
- *      \details  
+ *      \details  Initializes the GPT Driver with the given Configurations
+ *                Disables the Notifications
+ *                Enables the Notifications
+ *                Starts Timer in Polling/Interrupt Mode
+ *                Stops the timer
  *
  *
  *********************************************************************************************************************/
@@ -15,13 +19,7 @@
 #include "Std_Types.h"
 #include "Mcu_Hw.h"
 #include "GPT.h"
-/**********************************************************************************************************************
-*  LOCAL MACROS CONSTANT\FUNCTION
-*********************************************************************************************************************/
 
-/**********************************************************************************************************************
- *  LOCAL DATA 
- *********************************************************************************************************************/
 
 /**********************************************************************************************************************
  *  GLOBAL DATA
@@ -32,16 +30,6 @@ static void (*Gpt_CallBackPtr[GPT_NUMBER_OF_TIMERS])(void) = {NULL_PTR, NULL_PTR
                                                               NULL_PTR, NULL_PTR, NULL_PTR};
                                                                 
                                                                 
-
-
-/**********************************************************************************************************************
- *  LOCAL FUNCTION PROTOTYPES
- *********************************************************************************************************************/
-
-/**********************************************************************************************************************
- *  LOCAL FUNCTIONS
- *********************************************************************************************************************/
-
 /**********************************************************************************************************************
  *  GLOBAL FUNCTIONS
  *********************************************************************************************************************/
@@ -63,8 +51,6 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
     uint8 counter;
     for(counter = 0; counter < GPT_CONFIGURED_TIMERS; counter++)
     {
-      //added (clear the flag)
-       //SET_BIT(GPTMICR(ConfigPtr[counter].GptChannelId), GPTMICR_TAMCINT_BIT);
         /* Give an error if the user chose a max tick value higher than the chosen timer */
         //ASSERT(ConfigPtr[counter].GptChannelId < 6 && ConfigPtr[counter].GptChannelTickValueMax > 65536);
 
@@ -96,8 +82,6 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
         /* Insert the required prescaler in the GPTMAPTR */
         GPTMTAPR(ConfigPtr[counter].GptChannelId) = ConfigPtr[counter].GptChannelTickFrequency;
         
-        
-        
         /* Select Count up Mode */
         SET_BIT(GPTMTAMR(ConfigPtr[counter].GptChannelId), GPTMTAMR_TACDIR_BIT);
 
@@ -124,15 +108,14 @@ void Gpt_EnableNotification(Gpt_ChannelType Channel)
     
 }
 
-void Gpt_StartTimerPolling(Gpt_ChannelType Channel, Gpt_ValueType Value)
+void Gpt_StartTimerPollingMode(Gpt_ChannelType Channel, Gpt_ValueType Value)
 {
-  
+      /* Clear the TimeOut Interrupt Flag */
+    SET_BIT(GPTMICR(Channel), GPTMICR_TATOCINT_BIT);
+
     /* Load the value in GPTMTAILR Register */
     GPTMTAILR(Channel) = Value;
     
-    /* Clear the TimeOut Interrupt Flag */
-    SET_BIT(GPTMICR(Channel), GPTMICR_TATOCINT_BIT);
-
     /* Start counting */
     SET_BIT(GPTMCTL(Channel), GPTMCTL_TAEN_BIT);
 
@@ -144,7 +127,7 @@ void Gpt_StartTimerPolling(Gpt_ChannelType Channel, Gpt_ValueType Value)
 
 }
 
-void Gpt_StartTimerInterrupts(Gpt_ChannelType Channel, Gpt_ValueType Value)
+void Gpt_StartTimerInterruptMode(Gpt_ChannelType Channel, Gpt_ValueType Value)
 {
     /* Clear the TimeOut Interrupt Flag */
     SET_BIT(GPTMICR(Channel), GPTMICR_TATOCINT_BIT);
@@ -325,5 +308,5 @@ void WTIMER5A_Handler(void)
 
 
 /**********************************************************************************************************************
- *  END OF FILE: FileName.c
+ *  END OF FILE: GPT.c
  *********************************************************************************************************************/
