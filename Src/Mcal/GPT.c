@@ -122,18 +122,11 @@ void Gpt_EnableNotification(Gpt_ChannelType Channel)
     /* Enable the timer time-out interrupt */
     SET_BIT(GPTMIMR(Channel), GPTMIMR_TATOIM_BIT);
     
-    /* Enable the timer match interrupt */
-//    SET_BIT(GPTMIMR(Channel), 2);
-//    /* Enable the timer match interrupt */
-//    SET_BIT(GPTMIMR(Channel), 1);
-//    /* Enable the timer match interrupt */
-//    SET_BIT(GPTMIMR(Channel), 0);
 }
 
 void Gpt_StartTimerPolling(Gpt_ChannelType Channel, Gpt_ValueType Value)
 {
   
-    
     /* Load the value in GPTMTAILR Register */
     GPTMTAILR(Channel) = Value;
     
