@@ -32,7 +32,7 @@
 *******************************************************************************/
 void IntCrtl_Init(void)
 {
-	/*TODO Configure Grouping\SubGrouping System in APINT register in SCB*/
+    /* Set the group and sub group distribution */ 
     SCB_PERIPH->APINT = INTCTRL_GROUP_SUB_DIST;
     uint8 intNumber,intPosition,intPriNumber;
     /* Loop to cover all the interrupts in the config struct array */
@@ -42,7 +42,6 @@ void IntCrtl_Init(void)
 			continue;
         intPriNumber = InterruptsConfigArray[intNumber].InterrupPeripheralGates / 4;       /* Get the correct PRI register number */ 
         intPosition = InterruptsConfigArray[intNumber].InterrupPeripheralGates % 4;        /* Get the position of the interrupt inside PRI register */
-        /*TODO : Assign Group\Subgroup priority in NVIC_PRIx Nvic and SCB_SYSPRIx Registers*/ 
         /* Setting the Priority of the interrupt */
         switch (intPosition)
         {
@@ -61,7 +60,6 @@ void IntCrtl_Init(void)
             default:
                 break;
         }
-        /*TODO : Enable\Disable based on user configurations in NVIC_ENx and SCB_Sys Registers */
         /* Enabling the Interrupt */
         if(InterruptsConfigArray[intNumber].InterruptPeripheralState == ENABLED)
         {
@@ -86,6 +84,7 @@ void IntCrtl_Init(void)
                 INTCTRL_PERIPH->ENx[4] = (1 << InterruptsConfigArray[intNumber].InterrupPeripheralGates - 128);
             }
 		}
+        /* Disabling the Interrupt */
         else if(InterruptsConfigArray[intNumber].InterruptPeripheralState == DISABLED)
         {
             if(InterruptsConfigArray[intNumber].InterrupPeripheralGates >= 0 && InterruptsConfigArray[intNumber].InterrupPeripheralGates <= 31)

@@ -24,6 +24,7 @@
 /**********************************************************************************************************************
  *  GLOBAL DATA
  *********************************************************************************************************************/
+/* Global pointers to functions to hold the address of the call back function */
 static void (*Gpt_CallBackPtr[GPT_NUMBER_OF_TIMERS])(void) = {NULL_PTR, NULL_PTR, NULL_PTR,
                                                               NULL_PTR, NULL_PTR, NULL_PTR,
                                                               NULL_PTR, NULL_PTR, NULL_PTR,
@@ -36,14 +37,12 @@ static void (*Gpt_CallBackPtr[GPT_NUMBER_OF_TIMERS])(void) = {NULL_PTR, NULL_PTR
 
 /******************************************************************************
 * \Syntax          : void Gpt_Init(const Gpt_ConfigType* ConfigPtr)        
-* \Description     : Describe this service                                    
-*                                                                             
+* \Description     : Initilizes the GPT Driver                                                                                                                 
 * \Sync\Async      : Synchronous                                               
 * \Reentrancy      : Non Reentrant                                             
-* \Parameters (in) : parameterName   Parameter Describtion                     
+* \Parameters (in) : ConfigPtr   Pointer to a constant array of structures                      
 * \Parameters (out): None                                                      
-* \Return value:   : Std_ReturnType  E_OK
-*                                    E_NOT_OK                                  
+* \Return value:   : None                              
 *******************************************************************************/
 void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
 {   
@@ -85,10 +84,18 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
         /* Select Count up Mode */
         SET_BIT(GPTMTAMR(ConfigPtr[counter].GptChannelId), GPTMTAMR_TACDIR_BIT);
 
-
     }
 }
 
+/******************************************************************************
+* \Syntax          : void Gpt_DisableNotification(Gpt_ChannelType Channel)        
+* \Description     : Disables the Notifications for GPT                                                                                                                 
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : Channel   Pin number of a certain port                      
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void Gpt_DisableNotification(Gpt_ChannelType Channel)
 {
     /* Disable the Timer interrupt */
@@ -98,6 +105,15 @@ void Gpt_DisableNotification(Gpt_ChannelType Channel)
     CLEAR_BIT(GPTMIMR(Channel), GPTMIMR_TATOIM_BIT);
 }
 
+/******************************************************************************
+* \Syntax          : void Gpt_EnableNotification(Gpt_ChannelType Channel)        
+* \Description     : Enables the Notifications for GPT                                                                                                                 
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : Channel   Pin number of a certain port                      
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void Gpt_EnableNotification(Gpt_ChannelType Channel)
 {
     /* Enable the Timer interrupt */
@@ -108,6 +124,16 @@ void Gpt_EnableNotification(Gpt_ChannelType Channel)
     
 }
 
+/******************************************************************************
+* \Syntax          : void Gpt_StartTimerPollingMode(Gpt_ChannelType Channel, Gpt_ValueType Value)        
+* \Description     : Starts the timer in Polling Mode                                                                                                                
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : Channel   Pin number of a certain port   
+                     Value     The value at which the interrupt occurs                   
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void Gpt_StartTimerPollingMode(Gpt_ChannelType Channel, Gpt_ValueType Value)
 {
       /* Clear the TimeOut Interrupt Flag */
@@ -127,6 +153,16 @@ void Gpt_StartTimerPollingMode(Gpt_ChannelType Channel, Gpt_ValueType Value)
 
 }
 
+/******************************************************************************
+* \Syntax          : void Gpt_StartTimerInterruptMode(Gpt_ChannelType Channel, Gpt_ValueType Value)        
+* \Description     : Starts the timer in Interrupt Mode                                                                                                                
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : Channel   Pin number of a certain port   
+                     Value     The value at which the interrupt occurs                   
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void Gpt_StartTimerInterruptMode(Gpt_ChannelType Channel, Gpt_ValueType Value)
 {
     /* Clear the TimeOut Interrupt Flag */
@@ -139,13 +175,31 @@ void Gpt_StartTimerInterruptMode(Gpt_ChannelType Channel, Gpt_ValueType Value)
     SET_BIT(GPTMCTL(Channel), GPTMCTL_TAEN_BIT);
 }
 
+
+/******************************************************************************
+* \Syntax          : void Gpt_StopTimer(Gpt_ChannelType Channel)        
+* \Description     : Stops the timer                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : Channel   Pin number of a certain port                   
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void Gpt_StopTimer(Gpt_ChannelType Channel)
 {
     /* Stop counting */
     CLEAR_BIT(GPTMCTL(Channel), GPTMCTL_TAEN_BIT);
 }
 
-/**************************************************************************/
+/******************************************************************************
+* \Syntax          : Gpt_ValueType Gpt_GetTimeElapsed(Gpt_ChannelType Channel)        
+* \Description     : Return the Elapsed Time of the timer                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : Channel   Pin number of a certain port                   
+* \Parameters (out): None                                                      
+* \Return value:   : ElapsedTime                              
+*******************************************************************************/
 Gpt_ValueType Gpt_GetTimeElapsed(Gpt_ChannelType Channel)
 {
     uint8 Counter, Prescaler_Bits;
@@ -165,6 +219,15 @@ Gpt_ValueType Gpt_GetTimeElapsed(Gpt_ChannelType Channel)
     return ElapsedTime;
 }
 
+/******************************************************************************
+* \Syntax          : Gpt_ValueType Gpt_GetTimeElapsed(Gpt_ChannelType Channel)        
+* \Description     : Return the Remaining Time of the timer                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : Channel   Pin number of a certain port                   
+* \Parameters (out): None                                                      
+* \Return value:   : RemainingTime                              
+*******************************************************************************/
 Gpt_ValueType Gpt_GetTimeRemaining(Gpt_ChannelType Channel)
 {
     uint8 Counter, Prescaler_Bits;
@@ -186,7 +249,16 @@ Gpt_ValueType Gpt_GetTimeRemaining(Gpt_ChannelType Channel)
     return RemainingTime;
 }
 
-void TIMER0A_Handler(void )
+/******************************************************************************
+* \Syntax          : void TIMER0A_Handler(void)        
+* \Description     : Handler of Timer0A                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : None                  
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
+void TIMER0A_Handler(void)
 {
     if(Gpt_CallBackPtr[GPT_TIMER_0]!= NULL_PTR)
     {
@@ -196,6 +268,15 @@ void TIMER0A_Handler(void )
     }
 }
 
+/******************************************************************************
+* \Syntax          : void TIMER1A_Handler(void)        
+* \Description     : Handler of Timer1A                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : None                  
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void TIMER1A_Handler(void)
 {
     if(Gpt_CallBackPtr[GPT_TIMER_1]!= NULL_PTR)
@@ -206,6 +287,15 @@ void TIMER1A_Handler(void)
     }
 }
 
+/******************************************************************************
+* \Syntax          : void TIMER2A_Handler(void)        
+* \Description     : Handler of Timer2A                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : None                  
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void TIMER2A_Handler(void)
 {
     if(Gpt_CallBackPtr[GPT_TIMER_2]!= NULL_PTR)
@@ -216,6 +306,15 @@ void TIMER2A_Handler(void)
     }
 }
 
+/******************************************************************************
+* \Syntax          : void TIMER3A_Handler(void)        
+* \Description     : Handler of Timer3A                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : None                  
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void TIMER3A_Handler(void)
 {
     if(Gpt_CallBackPtr[GPT_TIMER_3]!= NULL_PTR)
@@ -226,6 +325,15 @@ void TIMER3A_Handler(void)
     }
 }
 
+/******************************************************************************
+* \Syntax          : void TIMER4A_Handler(void)        
+* \Description     : Handler of Timer4A                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : None                  
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void TIMER4A_Handler(void)
 {
     if(Gpt_CallBackPtr[GPT_TIMER_4]!= NULL_PTR)
@@ -236,6 +344,15 @@ void TIMER4A_Handler(void)
     }
 }
 
+/******************************************************************************
+* \Syntax          : void TIMER5A_Handler(void)        
+* \Description     : Handler of Timer5A                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : None                  
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void TIMER5A_Handler(void)
 {
     if(Gpt_CallBackPtr[GPT_TIMER_5]!= NULL_PTR)
@@ -246,6 +363,15 @@ void TIMER5A_Handler(void)
     }
 }
 
+/******************************************************************************
+* \Syntax          : void WTIMER0A_Handler(void)        
+* \Description     : Handler of Wide Timer0A                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : None                  
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void WTIMER0A_Handler(void)
 {
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_0]!= NULL_PTR)
@@ -256,6 +382,15 @@ void WTIMER0A_Handler(void)
     }
 }
 
+/******************************************************************************
+* \Syntax          : void WTIMER1A_Handler(void)        
+* \Description     : Handler of Wide Timer1A                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : None                  
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void WTIMER1A_Handler(void)
 {
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_1]!= NULL_PTR)
@@ -266,6 +401,15 @@ void WTIMER1A_Handler(void)
     }
 }
 
+/******************************************************************************
+* \Syntax          : void WTIMER2A_Handler(void)        
+* \Description     : Handler of Wide Timer2A                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : None                  
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void WTIMER2A_Handler(void)
 {
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_2]!= NULL_PTR)
@@ -276,6 +420,15 @@ void WTIMER2A_Handler(void)
     }
 }
 
+/******************************************************************************
+* \Syntax          : void WTIMER3A_Handler(void)        
+* \Description     : Handler of Wide Timer3A                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : None                  
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void WTIMER3A_Handler(void)
 {
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_3]!= NULL_PTR)
@@ -286,6 +439,15 @@ void WTIMER3A_Handler(void)
     }
 }
 
+/******************************************************************************
+* \Syntax          : void WTIMER4A_Handler(void)        
+* \Description     : Handler of Wide Timer4A                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : None                  
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void WTIMER4A_Handler(void)
 {
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_4]!= NULL_PTR)
@@ -296,6 +458,15 @@ void WTIMER4A_Handler(void)
     }
 }
 
+/******************************************************************************
+* \Syntax          : void WTIMER5A_Handler(void)        
+* \Description     : Handler of Wide Timer5A                                                                                                               
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : None                  
+* \Parameters (out): None                                                      
+* \Return value:   : None                              
+*******************************************************************************/
 void WTIMER5A_Handler(void)
 {
     if(Gpt_CallBackPtr[GPT_WIDE_TIMER_5]!= NULL_PTR)

@@ -21,9 +21,8 @@ int main(void)
 	Dio_WriteChannel(PIN_B2, PIN_HIGH);
 	Dio_WriteChannel(PIN_B3, PIN_HIGH);
 	
-	
 	Gpt_EnableNotification(GPT_TIMER_1);
-	Gpt_StartTimerInterrupts(GPT_TIMER_1, 64000 - 1);
+	Gpt_StartTimerInterruptMode(GPT_TIMER_1, 64000 - 1);
 	while(1)
 	{
 		 

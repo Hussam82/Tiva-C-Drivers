@@ -7,7 +7,6 @@
  *      \details  Read/Write the value of a given Pin
  *                Read/Write the value of a given Port
  *                Flips a given Pin
- *
  *********************************************************************************************************************/
 
 /**********************************************************************************************************************
@@ -21,17 +20,14 @@
  *  GLOBAL FUNCTIONS
  *********************************************************************************************************************/
 
-
 /******************************************************************************
-* \Syntax          : Std_ReturnType FunctionName(AnyType parameterName)        
-* \Description     : Describe this service                                    
-*                                                                             
+* \Syntax          : Dio_LevelType Dio_ReadChannel(Dio_ChannelType ChannelId)        
+* \Description     : Reads the Channel Value                                                                                                              
 * \Sync\Async      : Synchronous                                               
 * \Reentrancy      : Non Reentrant                                             
-* \Parameters (in) : parameterName   Parameter Describtion                     
+* \Parameters (in) : ChannelId   The pin number of a certain port                     
 * \Parameters (out): None                                                      
-* \Return value:   : Std_ReturnType  E_OK
-*                                    E_NOT_OK                                  
+* \Return value:   : ChannelValue                             
 *******************************************************************************/
 Dio_LevelType Dio_ReadChannel(Dio_ChannelType ChannelId)
 {
@@ -49,6 +45,16 @@ Dio_LevelType Dio_ReadChannel(Dio_ChannelType ChannelId)
     return ChannelValue;
 }
 
+/******************************************************************************
+* \Syntax          : void Dio_WriteChannel(Dio_ChannelType ChannelId, Dio_LevelType Level)       
+* \Description     : Writes a value to a certain Channel                                                                                                            
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : ChannelId   The pin number of a certain port
+                     Level       The value at which the channel is set                     
+* \Parameters (out): None                                                      
+* \Return value:   : None                             
+*******************************************************************************/
 void Dio_WriteChannel(Dio_ChannelType ChannelId, Dio_LevelType Level)
 {
     uint8 PortNum, PinNum;
@@ -74,6 +80,16 @@ void Dio_WriteChannel(Dio_ChannelType ChannelId, Dio_LevelType Level)
         /* Do Nothing */
     }
 }
+
+/******************************************************************************
+* \Syntax          : Dio_PortLevelType Dio_ReadPort(Dio_ChannelType ChannelId)       
+* \Description     : Reads the Port Value                                                                                                              
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : ChannelId   The Port number of a certain port                     
+* \Parameters (out): None                                                      
+* \Return value:   : PortValue                             
+*******************************************************************************/
 Dio_PortLevelType Dio_ReadPort(Dio_ChannelType ChannelId)
 {
     uint8 PortNum, PortValue;
@@ -87,6 +103,17 @@ Dio_PortLevelType Dio_ReadPort(Dio_ChannelType ChannelId)
     return PortValue;
 
 }
+
+/******************************************************************************
+* \Syntax          : void Dio_WritePort(Dio_ChannelType ChannelId, Dio_PortLevelType Level)       
+* \Description     : Writes a value to a certain Port                                                                                                            
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : ChannelId   The Port number
+                     Level       The value at which the Port is set                     
+* \Parameters (out): None                                                      
+* \Return value:   : None                             
+*******************************************************************************/
 void Dio_WritePort(Dio_ChannelType ChannelId, Dio_PortLevelType Level)
 {
     uint8 PortNum, PinNum;
@@ -98,6 +125,16 @@ void Dio_WritePort(Dio_ChannelType ChannelId, Dio_PortLevelType Level)
     GPIODATA(PortNum) = Level;
 
 }
+
+/******************************************************************************
+* \Syntax          : Dio_LevelType Dio_FlipChannel(Dio_ChannelType ChannelId)       
+* \Description     : Flips the value of a certain pin                                                                                                            
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : ChannelId   The Pin number to be flipped                
+* \Parameters (out): None                                                      
+* \Return value:   : None                             
+*******************************************************************************/
 Dio_LevelType Dio_FlipChannel(Dio_ChannelType ChannelId)
 {
     uint8 PortNum, PinNum, ChannelValue;

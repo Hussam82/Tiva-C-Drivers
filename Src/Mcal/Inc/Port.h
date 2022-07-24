@@ -22,6 +22,15 @@
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION PROTOTYPES
  *********************************************************************************************************************/
+/******************************************************************************
+* \Syntax          : void Port_Init(const Port_ConfigType* ConfigPtr)        
+* \Description     : Initializes the Port Driver                                                                                                                 
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : ConfigPtr      Pointer to an array of structures                     
+* \Parameters (out): None                                                      
+* \Return value:   : None                                                                      
+*******************************************************************************/
 void Port_Init(const Port_ConfigType* ConfigPtr);
 
 #endif  /* PORT_H */

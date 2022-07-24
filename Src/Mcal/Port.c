@@ -21,15 +21,13 @@
  *********************************************************************************************************************/
 
 /******************************************************************************
-* \Syntax          : Std_ReturnType FunctionName(AnyType parameterName)        
-* \Description     : Describe this service                                    
-*                                                                             
+* \Syntax          : void Port_Init(const Port_ConfigType* ConfigPtr)        
+* \Description     : Initializes the Port Driver                                                                                                                 
 * \Sync\Async      : Synchronous                                               
 * \Reentrancy      : Non Reentrant                                             
-* \Parameters (in) : parameterName   Parameter Describtion                     
+* \Parameters (in) : ConfigPtr      Pointer to an array of structures                     
 * \Parameters (out): None                                                      
-* \Return value:   : Std_ReturnType  E_OK
-*                                    E_NOT_OK                                  
+* \Return value:   : None                                                                      
 *******************************************************************************/
 void Port_Init(const Port_ConfigType* ConfigPtr)
 {
@@ -132,14 +130,11 @@ void Port_Init(const Port_ConfigType* ConfigPtr)
             if(ConfigPtr[Counter].PortPinLevel == PORT_PIN_HIGH_LEVEL)
             {
                 /* Write one to PinNum in PortNum */
-                //PORTA_PIN4 = 0x10;
-                //GPIODATA_PORT_PIN(PortNum, PinNum) |= 1<<PinNum;
                 GPIODATA(PortNum) |= (1<<PinNum);
             }
             else if(ConfigPtr[Counter].PortPinDirection == PORT_PIN_LOW_LEVEL)
             {
                 /* Write zero to PinNum in PortNum */
-                //GPIODATA_PORT_PIN(PortNum, PinNum) = 0;
                 GPIODATA(PortNum) &= ~(1<<PinNum);
             }
             else
@@ -162,8 +157,10 @@ void Port_Init(const Port_ConfigType* ConfigPtr)
         {
             /* Disable the Internal Pull Up Resistor for this pin */
             CLEAR_BIT(GPIOPUR(PortNum), PinNum);
+
             /* Disable the Internal Pull Down Resistor for this pin */
             CLEAR_BIT(GPIOPDR(PortNum), PinNum);
+
             /* Disable the Open Drain for this pin */
             CLEAR_BIT(GPIOODR(PortNum), PinNum);
         }
