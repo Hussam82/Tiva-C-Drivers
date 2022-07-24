@@ -21,7 +21,7 @@
 #define GPIO_APB                0
 #define GPIO_AHB                1
 #define GPIO_MODE               GPIO_APB
-#define PORT_CONFIGURED_PINS    4
+#define PORT_CONFIGURED_PINS    1
 
 
 #endif  /* PORT_CFG_H */
