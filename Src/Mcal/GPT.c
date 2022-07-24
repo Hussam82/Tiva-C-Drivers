@@ -77,7 +77,6 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
         /* Insert the required mode in the first 2 bits of GPTMAMR Register */
         GPTMTAMR(ConfigPtr[counter].GptChannelId) |= ConfigPtr[counter].GptChannelMode;
 
-        
         /* Insert the required prescaler in the GPTMAPTR */
         GPTMTAPR(ConfigPtr[counter].GptChannelId) = ConfigPtr[counter].GptChannelTickFrequency;
         
@@ -121,7 +120,7 @@ void Gpt_EnableNotification(Gpt_ChannelType Channel)
 
     /* Enable the timer time-out interrupt */
     SET_BIT(GPTMIMR(Channel), GPTMIMR_TATOIM_BIT);
-    
+
 }
 
 /******************************************************************************

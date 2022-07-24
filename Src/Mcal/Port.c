@@ -132,7 +132,7 @@ void Port_Init(const Port_ConfigType* ConfigPtr)
                 /* Write one to PinNum in PortNum */
                 GPIODATA(PortNum) |= (1<<PinNum);
             }
-            else if(ConfigPtr[Counter].PortPinDirection == PORT_PIN_LOW_LEVEL)
+            else if(ConfigPtr[Counter].PortPinLevel == PORT_PIN_LOW_LEVEL)
             {
                 /* Write zero to PinNum in PortNum */
                 GPIODATA(PortNum) &= ~(1<<PinNum);
