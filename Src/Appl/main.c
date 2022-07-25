@@ -3,6 +3,8 @@
 #include "Port.h"
 #include "Dio.h"
 #include "Mcu_Hw.h"
+#include "LED.h"
+#include "Button.h"
 /* Global Variable to hold the ticks as each tick is 1 second */
 static volatile uint8 g_Ticks = 0;
 
@@ -21,12 +23,12 @@ void Gpt_Notification_Timer1()
 	if(g_Ticks == g_OnTime)
 	{
 		/* Turn off the Led */
-		Dio_WriteChannel(PORT_F1, PIN_LOW);
+		Led_Off();
 	}
 	else if(g_Ticks == g_OffTime + g_OnTime)
 	{
 		/* Turn on The Led */
-		Dio_WriteChannel(PORT_F1, PIN_HIGH);
+		Led_On();
 		
 		/* Reset the counts to start over */
 		g_Ticks = 0;
@@ -45,8 +47,6 @@ int main(void)
 
 	/* Initialize the Port with PIN_F1 as DIO */
 	Port_Init(PortConfigArray);
-	
-	Dio_WritePort(PORT_F1, PIN_HIGH);
 	
 	/* Enable the Notification for Timer1A */
 	Gpt_EnableNotification(GPT_TIMER_1);

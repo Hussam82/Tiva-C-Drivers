@@ -19,7 +19,7 @@
 #include "Std_Types.h"
 #include "Mcu_Hw.h"
 #include "GPT.h"
-
+#include "assert.h"
 
 /**********************************************************************************************************************
  *  GLOBAL DATA
@@ -51,10 +51,10 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
     for(counter = 0; counter < GPT_CONFIGURED_TIMERS; counter++)
     {
         /* Give an error if the user chose a max tick value higher than the chosen timer */
-        //ASSERT(ConfigPtr[counter].GptChannelId < 6 && ConfigPtr[counter].GptChannelTickValueMax > 65536);
-
+        //assert((ConfigPtr[counter].GptChannelId < 6 && ConfigPtr[counter].GptChannelTickValueMax > 65536));
+		
         /* Give an error if the user chose the normal timers and chose prescaler higher than 256 */
-        //ASSERT(ConfigPtr[counter].GptChannelId < 6 && ConfigPtr[counter].GptChannelId >= 8);
+        //assert(ConfigPtr[counter].GptChannelId < 6 && ConfigPtr[counter].GptChannelId >= 8);
 
         /* Set the callback function */
         Gpt_CallBackPtr[ConfigPtr[counter].GptChannelId] = ConfigPtr[counter].GptNotification;
@@ -82,7 +82,6 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
         
         /* Select Count up Mode */
         SET_BIT(GPTMTAMR(ConfigPtr[counter].GptChannelId), GPTMTAMR_TACDIR_BIT);
-
     }
 }
 
