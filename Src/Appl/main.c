@@ -9,17 +9,17 @@
 static volatile uint8 g_Ticks = 0;
 
 /* Global Variable to hold the On Time for the LED */
-static volatile uint8 g_OnTime = 4;
+static volatile uint8 g_OnTime = 1;
 
 /* Global Variable to hold the Off Time for the LED */
-static volatile uint8 g_OffTime = 6;
+static volatile uint8 g_OffTime = 2;
+
+/* Global Variable to hold the Off Time for the LED */
+static volatile uint8 g_BlinkCount = 0;
 
 /* Callback function of Timer1A */
 void Gpt_Notification_Timer1()
 {
-	/* Each tick is 1 second, increment the counts */
-	g_Ticks++;
-
 	if(g_Ticks == g_OnTime)
 	{
 		/* Turn off the Led */
@@ -32,7 +32,17 @@ void Gpt_Notification_Timer1()
 		
 		/* Reset the counts to start over */
 		g_Ticks = 0;
+		g_BlinkCount++;
 	}
+	/* To change the values of on time and off time when the led blinks 2 times*/ 
+	if(g_BlinkCount == 3)
+	{
+		//g_Ticks = 0;
+		g_OnTime = 2;
+		g_OffTime = 4;
+	}
+	/* Each tick is 1 second, increment the counts */
+	g_Ticks++;
 }
 
 

@@ -32,9 +32,11 @@
 *******************************************************************************/
 void IntCrtl_Init(void)
 {
+	uint8 intNumber,intPosition,intPriNumber;
+    
     /* Set the group and sub group distribution */ 
     SCB_PERIPH->APINT = INTCTRL_GROUP_SUB_DIST;
-    uint8 intNumber,intPosition,intPriNumber;
+    
     /* Loop to cover all the interrupts in the config struct array */
     for(intNumber = 0; intNumber < INTCTRL_CONFIGURED_INTERRUPTS; intNumber++)
     {

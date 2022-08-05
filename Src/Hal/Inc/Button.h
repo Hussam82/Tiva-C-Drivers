@@ -20,8 +20,7 @@
  *********************************************************************************************************************/
 #define BUTTON_PRESSED				STD_HIGH
 #define BUTTON_RELEASED				STD_LOW
-/* To enable or disable Internal pull up configuration */
-#define BUTTON_INTERNAL_PULL_UP		STD_LOW
+
 
 
 

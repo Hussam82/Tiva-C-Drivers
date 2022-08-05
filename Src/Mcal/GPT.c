@@ -50,23 +50,22 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
     uint8 counter;
     for(counter = 0; counter < GPT_CONFIGURED_TIMERS; counter++)
     {
-        /* Give an error if the user chose a max tick value higher than the chosen timer */
-        //assert((ConfigPtr[counter].GptChannelId < 6 && ConfigPtr[counter].GptChannelTickValueMax > 65536));
-		
-        /* Give an error if the user chose the normal timers and chose prescaler higher than 256 */
-        //assert(ConfigPtr[counter].GptChannelId < 6 && ConfigPtr[counter].GptChannelId >= 8);
 
         /* Set the callback function */
         Gpt_CallBackPtr[ConfigPtr[counter].GptChannelId] = ConfigPtr[counter].GptNotification;
 
-        /* Get the required to be set in the corressponding register whether it is in RCGCTIMER or in RCGCWTIMER */
-        uint8 ReqBit = ConfigPtr[counter].GptChannelId < 6 ? (ConfigPtr[counter].GptChannelId):(ConfigPtr[counter].GptChannelId - 6);
-
         /* Enable Clock for the desired Timer Channel */
-        SET_BIT(SYSCTL_RCGC_TIMER(ConfigPtr[counter].GptChannelId), ReqBit);
+        if(ConfigPtr[counter].GptChannelId < 6)
+        {
+            SET_BIT(SYSCTL_RCGC_TIMER(ConfigPtr[counter].GptChannelId), ConfigPtr[counter].GptChannelId);
+        }
+        else
+        {
+            SET_BIT(SYSCTL_RCGC_TIMER(ConfigPtr[counter].GptChannelId), ConfigPtr[counter].GptChannelId - 6);
+        }
 
         /* Disable the desired timer channel in GPTMCTL */
-        CLEAR_BIT(GPTMCTL(ConfigPtr[counter].GptChannelId), GPTMCTL_TAEN_BIT);
+        GPTMCTL(ConfigPtr[counter].GptChannelId) = 0x00000000;
 
         /* For a 16/32-bit timer, this value selects the 16-bit timer configuration */
         GPTMCFG(ConfigPtr[counter].GptChannelId) = 0x0;
@@ -78,7 +77,14 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr)
         GPTMTAMR(ConfigPtr[counter].GptChannelId) |= ConfigPtr[counter].GptChannelMode;
 
         /* Insert the required prescaler in the GPTMAPTR */
-        GPTMTAPR(ConfigPtr[counter].GptChannelId) = ConfigPtr[counter].GptChannelTickFrequency;
+        if(ConfigPtr[counter].GptChannelId < 6 && ConfigPtr[counter].GptChannelTickFrequency >= 8)
+        {
+            GPTMTAPR(ConfigPtr[counter].GptChannelId) = GPT_PS_256;
+        }
+        else
+        {
+            GPTMTAPR(ConfigPtr[counter].GptChannelId) = ConfigPtr[counter].GptChannelTickFrequency;
+        }
         
         /* Select Count up Mode */
         SET_BIT(GPTMTAMR(ConfigPtr[counter].GptChannelId), GPTMTAMR_TACDIR_BIT);
